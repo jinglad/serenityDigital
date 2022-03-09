@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { Button, Input, Divider } from "react-native-elements";
+import GoogleLogin from "../components/GoogleLogin";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 // import { AntDesign } from "@expo/vector-icons";
 // import { Entypo } from "@expo/vector-icons";
 // import { useDispatch, useSelector } from "react-redux";
@@ -38,9 +40,9 @@ const Registration = ({ navigation }) => {
 
     // alert(email, password);
 
-    const url = BASE_URL;
-    alert(url);
-    console.log(url)
+    // const url = BASE_URL;
+    // alert(url);
+    // console.log(url)
 
     // fetch(`/api/accounts/v1/register/`, {
     //   method: "POST",
@@ -67,6 +69,17 @@ const Registration = ({ navigation }) => {
     // } else {
     //   alert("You are not successfully registered. Please try again");
     // }
+    navigation.navigate('Category')
+  };
+
+  const signOut = async () => {
+    try {
+      await GoogleSignin.signOut();
+      console.log("sign out successfully")
+      // this.setState({ user: null }); // Remember to remove the user from your app's state as well
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -125,12 +138,13 @@ const Registration = ({ navigation }) => {
         />
         <Divider width={2} />
         <Button
-          title="Sign in with Google"
+          title="Sign Out"
           containerStyle={{ marginTop: 20 }}
           buttonStyle={{ height: 60, borderRadius: 10 }}
+          onPress={signOut}
           // icon={<AntDesign name="google" size={24} color="black" />}
         />
-        {/* <GoogleLogin setUser={setUser} setLoaded={setLoaded} /> */}
+        <GoogleLogin setUser={setUser} setLoaded={setLoaded} />
       </View>
     </View>
   );
