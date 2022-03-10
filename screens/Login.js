@@ -1,14 +1,15 @@
-import { Platform, StatusBar, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
-import { KeyboardAvoidingView } from "react-native";
-import { Button, Divider, Input } from "react-native-elements";
+import {Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {KeyboardAvoidingView} from 'react-native';
+import {Button, Divider, Input} from 'react-native-elements';
 // import { AntDesign } from "@expo/vector-icons";
 // import { Entypo } from "@expo/vector-icons";
 // import { useSelector } from "react-redux";
+import {BASE_URL} from '@env';
 
-const Login = ({ navigation }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const Login = ({navigation}) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   // const { user } = useSelector((state) => state.videos);
 
@@ -18,21 +19,22 @@ const Login = ({ navigation }) => {
     // } else {
     //   alert("Your Login Failed. Please try again");
     // }
-    // fetch('http://127.0.0.1:8000/api/accounts/v1/login/', {
-    //   method:"GET",
-    //   headers: {
-    //     "content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     username,
-    //     password
-    //   })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     alert("Loggedin successfully")
-    //   })
-    //   .catch(error => alert(error.message))
-    // })
+    fetch(`${BASE_URL}/api/accounts/v1/login/`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        alert('Loggedin successfully');
+      })
+      .catch(error => alert(error.message));
   };
 
   return (
@@ -50,9 +52,9 @@ const Login = ({ navigation }) => {
             // autoFocus
             type="text"
             value={username}
-            onChangeText={(text) => setUsername(text)}
+            onChangeText={text => setUsername(text)}
             containerStyle={styles.input}
-            style={{ color: "white", fontSize: 14 }}
+            style={{color: 'white', fontSize: 14}}
           />
           <Input
             placeholder="Password"
@@ -61,9 +63,9 @@ const Login = ({ navigation }) => {
             secureTextEntry
             type="password"
             value={password}
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={text => setPassword(text)}
             containerStyle={styles.input}
-            style={{ color: "white", fontSize: 14 }}
+            style={{color: 'white', fontSize: 14}}
           />
         </View>
         <Button
@@ -71,7 +73,7 @@ const Login = ({ navigation }) => {
           buttonStyle={{
             height: 60,
             borderRadius: 10,
-            backgroundColor: "#E61E05",
+            backgroundColor: '#E61E05',
           }}
           containerStyle={{
             marginTop: 30,
@@ -82,8 +84,8 @@ const Login = ({ navigation }) => {
         <Divider width={2} />
         <Button
           title="Sign in with Google"
-          containerStyle={{ marginTop: 20 }}
-          buttonStyle={{ height: 60, borderRadius: 10 }}
+          containerStyle={{marginTop: 20}}
+          buttonStyle={{height: 60, borderRadius: 10}}
           // icon={<AntDesign name="google" size={24} color="black" />}
         />
       </View>
@@ -95,24 +97,24 @@ export default Login;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    backgroundColor: "#232c38",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    backgroundColor: '#232c38',
   },
   heading: {
-    fontWeight: "700",
+    fontWeight: '700',
     fontSize: 24,
-    textAlign: "center",
-    color: "white",
+    textAlign: 'center',
+    color: 'white',
   },
   subHeading: {
     fontSize: 18,
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: 5,
-    color: "white",
+    color: 'white',
   },
   registrationTop: {
     // marginTop: 80,
