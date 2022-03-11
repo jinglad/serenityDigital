@@ -6,19 +6,20 @@ import {Button, Divider, Input} from 'react-native-elements';
 // import { Entypo } from "@expo/vector-icons";
 // import { useSelector } from "react-redux";
 import {BASE_URL} from '@env';
+import {useDispatch, useSelector} from 'react-redux';
+import {setAccessToken, setUser} from '../redux/actions';
 
 const Login = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  // const { user } = useSelector((state) => state.videos);
+  const {access_token} = useSelector((state) => state.videos);
+
+  const dispatch = useDispatch();
+
+  // console.log(access_token);
 
   const signIn = () => {
-    // if (user.email === email && user.password === password) {
-    //   navigation.navigate("Category");
-    // } else {
-    //   alert("Your Login Failed. Please try again");
-    // }
     fetch(`${BASE_URL}/api/accounts/v1/login/`, {
       method: 'POST',
       headers: {
@@ -31,8 +32,22 @@ const Login = ({navigation}) => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
-        alert('Loggedin successfully');
+        dispatch(
+          setUser({
+            username: data?.username,
+            email: data?.email,
+          }),
+        );
+        dispatch(setAccessToken(data?.token));
+        setUsername('');
+        setPassword('');
+        if (data?.token) {
+          navigation.navigate('Category');
+        } else {
+          alert(
+            'Could not authenticate user! please try again with correct credential',
+          );
+        }
       })
       .catch(error => alert(error.message));
   };
@@ -42,7 +57,7 @@ const Login = ({navigation}) => {
       {/* <StatusBar style='dark' /> */}
       <View style={styles.registrationTop}>
         <Text style={styles.heading}>Hello Again</Text>
-        <Text style={styles.subHeading}>Welcome back you’vebeen missed!</Text>
+        <Text style={styles.subHeading}>Welcome back you’ve been missed!</Text>
       </View>
       <View>
         <View style={styles.registrationForm}>

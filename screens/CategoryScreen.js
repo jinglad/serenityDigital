@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {setCategoryTitle} from "../redux/actions";
 
 const categoryData = [
@@ -81,6 +81,9 @@ const Item = ({ category, img, videos, navigation, handleSetCategory }) => (
 
 const CategoryScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const {user} = useSelector((state) => state.videos);
+
+  console.log(user);
 
   const handleSetCategory = (category) => {
     dispatch(setCategoryTitle(category));
@@ -101,7 +104,7 @@ const CategoryScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.category__top}>
         <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
-          Hey, Jihan Chowdhury
+          Hey, {user?.username}
         </Text>
         <Text style={{ fontSize: 16, color: "white" }}>Find categories of your interest</Text>
       </View>

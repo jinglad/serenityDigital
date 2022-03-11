@@ -3,24 +3,37 @@ import {Button, Text, View} from 'react-native';
 // import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import Modal from 'react-native-modal';
 
-const CustomModal = ({open, onClose, children}) => {
+const CustomModal = ({open, onClose, children, navigation}) => {
   // const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
       <Modal
+        onBackButtonPress={onClose}
+        animationInTiming={600}
         backdropColor="white"
-        isVisible={open}
-        style={{
-          width: 300,
-          height: 300,
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <View style={{flex: 1}}>
-          <Text>I am the modal content!</Text>
-          <Button title="Close" onPress={onClose} />
+        isVisible={open}>
+        <View
+          style={{
+            backgroundColor: 'white',
+            height: 200,
+            // flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text style={{textAlign: 'center', fontSize: 14}}>
+            Registration Done Successfully
+          </Text>
+          <Text style={{textAlign: 'center', fontSize: 14, marginBottom: 20}}>
+            You can login now
+          </Text>
+          <Button
+            title="Login"
+            onPress={() => {
+              navigation.navigate('Login');
+              onClose();
+            }}
+            // style={{}}
+          />
         </View>
       </Modal>
     </View>

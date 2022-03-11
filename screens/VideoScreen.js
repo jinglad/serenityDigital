@@ -15,45 +15,45 @@ import { useSelector } from "react-redux";
 const videoList = [
   {
     id: 1,
-    title: "Iron Man vs Thor - Fight Scene",
+    title: "Finnish Education - Equal Opportunities for All",
     category: "Web Development",
-    url: "https://youtu.be/PNdF6xfVMXM",
-    oid: "kjiSVunIWpU",
+    url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
+    oid: "a5pxp-JcRTw",
     thumbnail:
       "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
   },
   {
     id: 2,
-    title: "Web Development Course",
+    title: "Finnish Education - Equal Opportunities for All",
     category: "Web Development",
-    url: "https://youtu.be/XU0FYlY9_E0",
-    oid: "XU0FYlY9_E0",
+    url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
+    oid: "a5pxp-JcRTw",
     thumbnail:
       "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
   },
   {
     id: 3,
-    title: "Sacrifices I made for my Passion",
+    title: "Finnish Education - Equal Opportunities for All",
     category: "Web Development",
-    url: "https://youtu.be/UTCeLfby7O4",
-    oid: "UTCeLfby7O4",
+    url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
+    oid: "a5pxp-JcRTw",
     thumbnail:
       "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
   },
   {
     id: 4,
-    title: "My Gym Experience",
+    title: "Finnish Education - Equal Opportunities for All",
     category: "Web Development",
-    url: "https://youtu.be/hnAlQePLpbE",
-    oid: "hnAlQePLpbE",
+    url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
+    oid: "a5pxp-JcRTw",
     thumbnail:
       "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
   },
   {
     id: 5,
-    title: "How to Argue?",
+    title: "Finnish Education - Equal Opportunities for All",
     category: "Web Development",
-    url: "https://youtu.be/a5pxp-JcRTw",
+    url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
     oid: "a5pxp-JcRTw",
     thumbnail:
       "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",

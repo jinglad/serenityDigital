@@ -10,8 +10,11 @@ import {
 import React from 'react';
 import {Image} from 'react-native';
 import {Button} from 'react-native-elements';
+import { useSelector } from 'react-redux';
 
 const HomeScreen = ({navigation}) => {
+  const {user, access_token} = useSelector(state => state.videos);
+  // console.log(access_token);
   return (
     <SafeAreaView style={styles.AndroidSafeArea}>
       <StatusBar status="dark" />
@@ -25,7 +28,8 @@ const HomeScreen = ({navigation}) => {
           Lorem Ipsum is simply dummy text Lorem Ipsum has been the industry's
           standard
         </Text>
-        <View style={styles.buttonContainer}>
+        {
+          !access_token ? <View style={styles.buttonContainer}>
           <Button
             containerStyle={styles.button}
             buttonStyle={{
@@ -48,7 +52,21 @@ const HomeScreen = ({navigation}) => {
             title={'Sign in'}
             onPress={() => navigation.navigate('Login')}
           />
+        </View> : <View>
+          <Button 
+            containerStyle={styles.button}
+            buttonStyle={{
+              // backgroundColor: '#E61E05',
+              height: 60,
+              width: '100%',
+              borderRadius: 5,
+              marginTop: 10
+            }}
+            title={'Choose your category'}
+            onPress={() => navigation.navigate('Category')}
+          />
         </View>
+        }
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

@@ -14,38 +14,26 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 // import { AntDesign } from "@expo/vector-icons";
 // import { Entypo } from "@expo/vector-icons";
 // import { useDispatch, useSelector } from "react-redux";
-// import { setUser } from "../Redux/actions";
+import {setUser} from '../redux/actions';
 // import { StatusBar } from 'expo-status-bar'
 // import Icon from 'react-native-vector-icons/Entypo';
 import {BASE_URL} from '@env';
 import CustomModal from '../components/Modal';
+import {useSelector} from 'react-redux';
 // import GoogleLogin from "../components/GoogleLogin";
 
 const Registration = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
 
   // const dispatch = useDispatch();
-  // const { user } = useSelector((state) => state.videos);
+  const {user} = useSelector(state => state.videos);
 
   const signUp = () => {
-    // const newUser = {
-    //   username,
-    //   email,
-    //   password,
-    //   password2: password
-    // };
-
-    // alert(email, password);
-
-    // const url = BASE_URL;
-    // alert(url);
-    // console.log(url)
-
     fetch(`${BASE_URL}/api/accounts/v1/register/`, {
       method: 'POST',
       headers: {
@@ -61,35 +49,29 @@ const Registration = ({navigation}) => {
     })
       .then(res => res.json())
       .then(data => {
-        // console.log('data ', data);
-        // alert('Your registration done successfully');
-        setOpen(true);
+        // console.log(data);
+        if (data.email) {
+          setOpen(true);
+        } else {
+          alert('Registration not done successfully! please try again');
+        }
       })
       .catch(error => alert(error.message));
-
-    // if (newUser) {
-    //   // dispatch(setUser(newUser));
-    //   navigation.navigate("Login");
-    // } else {
-    //   alert("You are not successfully registered. Please try again");
-    // }
-    // navigation.navigate('Category')
   };
 
-  // const signOut = async () => {
-  //   try {
-  //     await GoogleSignin.signOut();
-  //     console.log("sign out successfully")
-  //     // this.setState({ user: null }); // Remember to remove the user from your app's state as well
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const signOut = async () => {
+    try {
+      await GoogleSignin.signOut();
+      console.log('sign out successfully');
+      // this.setState({ user: null }); // Remember to remove the user from your app's state as well
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
       <View style={styles.container} behavior="padding">
-        {/* <StatusBar style='dark' /> */}
         <View style={styles.registrationTop}>
           <Text style={styles.heading}>Hello Mate</Text>
           <Text style={styles.subHeading}>Welcome to our app</Text>
@@ -98,8 +80,6 @@ const Registration = ({navigation}) => {
           <View style={styles.registrationForm}>
             <Input
               placeholder="Enter username"
-              // leftIcon={<Icon name="add-user" size={24} color="white" />}
-              // autoFocus
               type="text"
               value={username}
               onChangeText={text => setUsername(text)}
@@ -108,8 +88,6 @@ const Registration = ({navigation}) => {
             />
             <Input
               placeholder="Email"
-              // leftIcon={<AntDesign name="mail" size={24} color="white" />}
-              // autoFocus
               type="email"
               value={email}
               onChangeText={text => setEmail(text)}
@@ -118,8 +96,6 @@ const Registration = ({navigation}) => {
             />
             <Input
               placeholder="password"
-              // leftIcon={<Entypo name="lock" size={24} color="white" />}
-              // autoFocus
               secureTextEntry
               type="password"
               value={password}
@@ -142,18 +118,14 @@ const Registration = ({navigation}) => {
             onPress={signUp}
           />
           <Divider width={2} />
-          {/* <Button
-          title="Sign Out"
-          containerStyle={{ marginTop: 20 }}
-          buttonStyle={{ height: 60, borderRadius: 10 }}
-          onPress={signOut}
-          // icon={<AntDesign name="google" size={24} color="black" />}
-        /> */}
           <GoogleLogin setUser={setUser} setLoaded={setLoaded} />
+          <Button title="sign out" onPress={signOut} />
         </View>
       </View>
-      <Button title="Show modal" onPress={() => setOpen(true)} />
-      <CustomModal open={open} onClose={() => setOpen(false)}>
+      <CustomModal
+        navigation={navigation}
+        open={open}
+        onClose={() => setOpen(false)}>
         Registration done successfully
       </CustomModal>
     </>

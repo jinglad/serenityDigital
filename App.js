@@ -12,7 +12,22 @@ import CategoryScreen from './screens/CategoryScreen';
 import VideoScreen from './screens/VideoScreen';
 import { PersistGate } from 'redux-persist/integration/react';
 import reduxStore from "./redux/store";
+import VideoPlayerScreen from './screens/VideoPlayerScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Profile from './screens/Profile';
 // import store from './redux/store';
+
+
+const CategoryTabs = () => {
+  const Tab = createBottomTabNavigator();
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Category" component={CategoryScreen} />
+      <Tab.Screen name="Videos" component={VideoScreen} />
+      <Tab.Screen name="Profile" component={Profile} />
+    </Tab.Navigator>
+  )
+}
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -31,8 +46,7 @@ const App = () => {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Registration" component={Registration} />
             <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Category" component={CategoryScreen} />
-            <Stack.Screen name="Videos" component={VideoScreen} />
+            <Stack.Screen name="CategoryTab" component={CategoryTabs} />
           </Stack.Navigator>
         </NavigationContainer>
         </PersistGate>
