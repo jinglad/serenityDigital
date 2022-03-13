@@ -8,70 +8,70 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {setCategoryTitle} from "../redux/actions";
+} from 'react-native';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {setCategory, setCategoryTitle} from '../redux/actions';
+import {BASE_URL} from '@env';
 
 const categoryData = [
   {
     id: 1,
-    category: "Nature",
-    img: "https://lh3.googleusercontent.com/W7wMzRYwGnx4zxxbNn3hr31pTKBnA7XFnRBEAnAC7eGCQ7BUF8gMjlSDtPmQJEWw554TY6a06qBHAekzDQYYYbYAGuX4BtEIwipUlYbyA1fE9fC-OnmpCsu_iGsGCkPaaWlIUDyZgQ=w2400",
+    category: 'Nature',
+    img: 'https://lh3.googleusercontent.com/W7wMzRYwGnx4zxxbNn3hr31pTKBnA7XFnRBEAnAC7eGCQ7BUF8gMjlSDtPmQJEWw554TY6a06qBHAekzDQYYYbYAGuX4BtEIwipUlYbyA1fE9fC-OnmpCsu_iGsGCkPaaWlIUDyZgQ=w2400',
     videos: 7,
   },
   {
     id: 2,
-    category: "Photography",
-    img: "https://lh3.googleusercontent.com/SWbuBrXPHHtV1m_ki3PFuDvkWBXlk4DcrAjcBXUhFfJ-UWJKvBj6nPknHZZZLLc5UWEKO7pgqvPJ62vDssZkozLArkf0lsU2FA7v91Ps_7_MUZCfCE8VQSqmbQj7cD-ZjSklAAKaSQ=w2400",
+    category: 'Photography',
+    img: 'https://lh3.googleusercontent.com/SWbuBrXPHHtV1m_ki3PFuDvkWBXlk4DcrAjcBXUhFfJ-UWJKvBj6nPknHZZZLLc5UWEKO7pgqvPJ62vDssZkozLArkf0lsU2FA7v91Ps_7_MUZCfCE8VQSqmbQj7cD-ZjSklAAKaSQ=w2400',
     videos: 14,
   },
   {
     id: 3,
-    category: "Web Development",
-    img: "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
+    category: 'Web Development',
+    img: 'https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400',
     videos: 23,
   },
   {
     id: 4,
-    category: "Nature",
-    img: "https://lh3.googleusercontent.com/W7wMzRYwGnx4zxxbNn3hr31pTKBnA7XFnRBEAnAC7eGCQ7BUF8gMjlSDtPmQJEWw554TY6a06qBHAekzDQYYYbYAGuX4BtEIwipUlYbyA1fE9fC-OnmpCsu_iGsGCkPaaWlIUDyZgQ=w2400",
+    category: 'Nature',
+    img: 'https://lh3.googleusercontent.com/W7wMzRYwGnx4zxxbNn3hr31pTKBnA7XFnRBEAnAC7eGCQ7BUF8gMjlSDtPmQJEWw554TY6a06qBHAekzDQYYYbYAGuX4BtEIwipUlYbyA1fE9fC-OnmpCsu_iGsGCkPaaWlIUDyZgQ=w2400',
     videos: 7,
   },
   {
     id: 5,
-    category: "Photography",
-    img: "https://lh3.googleusercontent.com/SWbuBrXPHHtV1m_ki3PFuDvkWBXlk4DcrAjcBXUhFfJ-UWJKvBj6nPknHZZZLLc5UWEKO7pgqvPJ62vDssZkozLArkf0lsU2FA7v91Ps_7_MUZCfCE8VQSqmbQj7cD-ZjSklAAKaSQ=w2400",
+    category: 'Photography',
+    img: 'https://lh3.googleusercontent.com/SWbuBrXPHHtV1m_ki3PFuDvkWBXlk4DcrAjcBXUhFfJ-UWJKvBj6nPknHZZZLLc5UWEKO7pgqvPJ62vDssZkozLArkf0lsU2FA7v91Ps_7_MUZCfCE8VQSqmbQj7cD-ZjSklAAKaSQ=w2400',
     videos: 14,
   },
   {
     id: 6,
-    category: "Web Development",
-    img: "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
+    category: 'Web Development',
+    img: 'https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400',
     videos: 23,
   },
   {
     id: 7,
-    category: "Web Development",
-    img: "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
+    category: 'Web Development',
+    img: 'https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400',
     videos: 23,
   },
 ];
 
-const Item = ({ category, img, videos, navigation, handleSetCategory }) => (
+const Item = ({category, img, videos, navigation, handleSetCategory}) => (
   <TouchableOpacity
-    style={{ paddingLeft: 10, paddingRight: 10, flex: 1 }}
+    style={{paddingLeft: 10, paddingRight: 10, flex: 1}}
     onPress={() => {
-      handleSetCategory(category)
+      handleSetCategory(category);
       // console.log("category ", category);
-      navigation.navigate("Videos");
-    }}
-  >
+      navigation.navigate('Videos');
+    }}>
     <View style={styles.item}>
-      <Image style={styles.category__image} source={{ uri: img }} />
-      <View style={{ marginTop: 10 }}>
+      <Image style={styles.category__image} source={{uri: img}} />
+      <View style={{marginTop: 10}}>
         <Text style={styles.title}>{category}</Text>
-        <Text style={{ fontSize: 14, marginLeft: 10, color: "white" }}>
+        <Text style={{fontSize: 14, marginLeft: 10, color: 'white'}}>
           Videos - {videos}
         </Text>
       </View>
@@ -79,40 +79,58 @@ const Item = ({ category, img, videos, navigation, handleSetCategory }) => (
   </TouchableOpacity>
 );
 
-const CategoryScreen = ({ navigation }) => {
+const CategoryScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const {user} = useSelector((state) => state.videos);
+  const {user, access_token, categories} = useSelector(state => state.videos);
 
-  console.log(user);
+  // console.log(user);
+  // console.log(categories);
 
-  const handleSetCategory = (category) => {
+  const handleSetCategory = category => {
     dispatch(setCategoryTitle(category));
     // console.log("categpry from handleSetcategory ", category);
   };
 
-  const renderItem = ({ item }) => (
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/category/v1/items/`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Token ' + access_token,
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        dispatch(setCategory(data));
+      })
+      .catch(err => alert(err.message));
+  }, []);
+
+  const renderItem = ({item}) => (
     <Item
       navigation={navigation}
       handleSetCategory={handleSetCategory}
-      category={item.category}
-      img={item.img}
-      videos={item.videos}
+      category={item.name}
+      img="https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400"
+      videos={7}
     />
   );
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.category__top}>
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
+        <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>
           Hey, {user?.username}
         </Text>
-        <Text style={{ fontSize: 16, color: "white" }}>Find categories of your interest</Text>
+        <Text style={{fontSize: 16, color: 'white'}}>
+          Find categories of your interest
+        </Text>
       </View>
       <FlatList
-        data={categoryData}
+        data={categories}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        ListFooterComponent={<View style={{height: 120}}/>}
+        keyExtractor={item => item.id}
+        ListFooterComponent={<View style={{height: 120}} />}
         // style={{flex: 1}}
       />
     </SafeAreaView>
@@ -123,8 +141,8 @@ export default CategoryScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: "#232c38",
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    backgroundColor: '#232c38',
   },
   category__top: {
     marginBottom: 30,
@@ -132,16 +150,16 @@ const styles = StyleSheet.create({
   },
   item: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 5,
     padding: 5,
     borderRadius: 5,
-    backgroundColor: "#100f30",
+    backgroundColor: '#100f30',
   },
   title: {
     fontSize: 20,
     marginLeft: 10,
-    color: "white",
+    color: 'white',
   },
   category__image: {
     width: 100,

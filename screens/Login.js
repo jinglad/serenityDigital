@@ -13,13 +13,16 @@ const Login = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const {access_token} = useSelector((state) => state.videos);
+  const [loader, setLoader] = useState(false);
+
+  const {access_token} = useSelector(state => state.videos);
 
   const dispatch = useDispatch();
 
   // console.log(access_token);
 
   const signIn = () => {
+    setLoader(true);
     fetch(`${BASE_URL}/api/accounts/v1/login/`, {
       method: 'POST',
       headers: {
@@ -32,6 +35,7 @@ const Login = ({navigation}) => {
     })
       .then(res => res.json())
       .then(data => {
+        setLoader(false);
         dispatch(
           setUser({
             username: data?.username,
@@ -42,7 +46,7 @@ const Login = ({navigation}) => {
         setUsername('');
         setPassword('');
         if (data?.token) {
-          navigation.navigate('Category');
+          navigation.navigate('CategoryTab');
         } else {
           alert(
             'Could not authenticate user! please try again with correct credential',
@@ -84,7 +88,7 @@ const Login = ({navigation}) => {
           />
         </View>
         <Button
-          title="Login"
+          title={loader ? 'Loading...' : 'Login'}
           buttonStyle={{
             height: 60,
             borderRadius: 10,
@@ -96,13 +100,13 @@ const Login = ({navigation}) => {
           }}
           onPress={signIn}
         />
-        <Divider width={2} />
-        <Button
+        {/* <Divider width={2} /> */}
+        {/* <Button
           title="Sign in with Google"
           containerStyle={{marginTop: 20}}
           buttonStyle={{height: 60, borderRadius: 10}}
           // icon={<AntDesign name="google" size={24} color="black" />}
-        />
+        /> */}
       </View>
     </KeyboardAvoidingView>
   );

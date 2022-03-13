@@ -30,10 +30,13 @@ const Registration = ({navigation}) => {
   const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const [loader, setLoader] = useState(false);
+
   // const dispatch = useDispatch();
   const {user} = useSelector(state => state.videos);
 
   const signUp = () => {
+    setLoader(true);
     fetch(`${BASE_URL}/api/accounts/v1/register/`, {
       method: 'POST',
       headers: {
@@ -50,6 +53,7 @@ const Registration = ({navigation}) => {
       .then(res => res.json())
       .then(data => {
         // console.log(data);
+        setLoader(false);
         if (data.email) {
           setOpen(true);
         } else {
@@ -59,15 +63,15 @@ const Registration = ({navigation}) => {
       .catch(error => alert(error.message));
   };
 
-  const signOut = async () => {
-    try {
-      await GoogleSignin.signOut();
-      console.log('sign out successfully');
-      // this.setState({ user: null }); // Remember to remove the user from your app's state as well
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const signOut = async () => {
+  //   try {
+  //     await GoogleSignin.signOut();
+  //     console.log('sign out successfully');
+  //     // this.setState({ user: null }); // Remember to remove the user from your app's state as well
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <>
@@ -105,7 +109,7 @@ const Registration = ({navigation}) => {
             />
           </View>
           <Button
-            title="Register"
+            title={loader ? 'Loading...' : 'Register'}
             buttonStyle={{
               height: 60,
               borderRadius: 10,
@@ -117,9 +121,9 @@ const Registration = ({navigation}) => {
             }}
             onPress={signUp}
           />
-          <Divider width={2} />
+          {/* <Divider width={2} />
           <GoogleLogin setUser={setUser} setLoaded={setLoaded} />
-          <Button title="sign out" onPress={signOut} />
+          <Button title="sign out" onPress={signOut} /> */}
         </View>
       </View>
       <CustomModal

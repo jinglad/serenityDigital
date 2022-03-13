@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -10,24 +10,54 @@ import Login from './screens/Login';
 import {Provider} from 'react-redux';
 import CategoryScreen from './screens/CategoryScreen';
 import VideoScreen from './screens/VideoScreen';
-import { PersistGate } from 'redux-persist/integration/react';
-import reduxStore from "./redux/store";
+import {PersistGate} from 'redux-persist/integration/react';
+import reduxStore from './redux/store';
 import VideoPlayerScreen from './screens/VideoPlayerScreen';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Profile from './screens/Profile';
 // import store from './redux/store';
-
+// import Entypo from 'react-native-vector-icons/Entypo';
+// import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Icon} from 'react-native-elements';
 
 const CategoryTabs = () => {
   const Tab = createBottomTabNavigator();
+
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Category" component={CategoryScreen} />
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        headerShown: false,
+        tabBarIcon: ({focused, color, size}) => {
+          let imageSource, type;
+          if (route.name == 'Category') {
+            // imageSource = require('./assets/images/list.svg');
+            imageSource = 'list';
+            type = 'ionicon'; 
+          } 
+          if (route.name == 'Videos') {
+            imageSource = 'videocam';
+            type = 'ionicon';
+          }
+          if (route.name == 'Profile') {
+            imageSource = 'user';
+            type = 'evilicon';
+          }
+
+          return <Icon name={imageSource} type={type} size={30} color="black" />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+      })}>
+      <Tab.Screen
+        name="Category"
+        component={CategoryScreen}
+        // screenOptions={screenOptions}
+      />
       <Tab.Screen name="Videos" component={VideoScreen} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
-  )
-}
+  );
+};
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -38,17 +68,18 @@ const App = () => {
     <SafeAreaProvider>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: false,
-            }}>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Registration" component={Registration} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="CategoryTab" component={CategoryTabs} />
-          </Stack.Navigator>
-        </NavigationContainer>
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+              }}>
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="Registration" component={Registration} />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="CategoryTab" component={CategoryTabs} />
+              <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
         </PersistGate>
       </Provider>
     </SafeAreaProvider>

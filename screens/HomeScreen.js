@@ -10,10 +10,26 @@ import {
 import React from 'react';
 import {Image} from 'react-native';
 import {Button} from 'react-native-elements';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  setAccessToken,
+  setCategory,
+  setCategoryTitle,
+  setUser,
+} from '../redux/actions';
+import GoogleLogin from '../components/GoogleLogin';
+import {Divider} from 'react-native-elements/dist/divider/Divider';
 
 const HomeScreen = ({navigation}) => {
   const {user, access_token} = useSelector(state => state.videos);
+  const dispatch = useDispatch();
+
+  const logOut = () => {
+    dispatch(setAccessToken(null));
+    dispatch(setCategory(null));
+    dispatch(setCategoryTitle(null));
+    dispatch(setUser(null));
+  };
   // console.log(access_token);
   return (
     <SafeAreaView style={styles.AndroidSafeArea}>
@@ -28,45 +44,64 @@ const HomeScreen = ({navigation}) => {
           Lorem Ipsum is simply dummy text Lorem Ipsum has been the industry's
           standard
         </Text>
-        {
-          !access_token ? <View style={styles.buttonContainer}>
-          <Button
-            containerStyle={styles.button}
-            buttonStyle={{
-              backgroundColor: '#E61E05',
-              height: 80,
-              width: 150,
-              borderRadius: 5,
-            }}
-            title={'Register'}
-            onPress={() => navigation.navigate('Registration')}
-          />
-          <Button
-            containerStyle={styles.button}
-            buttonStyle={{
-              backgroundColor: '#840D01',
-              height: 80,
-              width: 150,
-              borderRadius: 5,
-            }}
-            title={'Sign in'}
-            onPress={() => navigation.navigate('Login')}
-          />
-        </View> : <View>
-          <Button 
-            containerStyle={styles.button}
-            buttonStyle={{
-              // backgroundColor: '#E61E05',
-              height: 60,
-              width: '100%',
-              borderRadius: 5,
-              marginTop: 10
-            }}
-            title={'Choose your category'}
-            onPress={() => navigation.navigate('Category')}
-          />
-        </View>
-        }
+        {!access_token ? (
+          <>
+            <View style={styles.buttonContainer}>
+              <Button
+                containerStyle={styles.button}
+                buttonStyle={{
+                  backgroundColor: '#E61E05',
+                  height: 60,
+                  width: 150,
+                  borderRadius: 5,
+                }}
+                title={'Register'}
+                onPress={() => navigation.navigate('Registration')}
+              />
+              <Button
+                containerStyle={styles.button}
+                buttonStyle={{
+                  backgroundColor: '#840D01',
+                  height: 60,
+                  width: 150,
+                  borderRadius: 5,
+                }}
+                title={'Sign in'}
+                onPress={() => navigation.navigate('Login')}
+              />
+            </View>
+            {/* <Divider width={2} /> */}
+            <Text style={{color: 'white', fontSize: 16}}>Or</Text>
+            <GoogleLogin />
+          </>
+        ) : (
+          <View style={{marginTop: 10}}>
+            <Button
+              containerStyle={styles.button}
+              buttonStyle={{
+                // backgroundColor: '#E61E05',
+                height: 60,
+                width: '100%',
+                borderRadius: 5,
+                marginTop: 10,
+              }}
+              title={'Choose your category'}
+              onPress={() => navigation.navigate('CategoryTab')}
+            />
+            <Button
+              containerStyle={styles.button}
+              buttonStyle={{
+                backgroundColor: '#E61E05',
+                height: 60,
+                width: '100%',
+                borderRadius: 5,
+                marginTop: 10,
+              }}
+              title={'Log out'}
+              onPress={logOut}
+            />
+          </View>
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

@@ -1,4 +1,4 @@
-import { SET_ACCESS_TOKEN, SET_CATEGORY_TITLE, SET_USER } from "./types";
+import { SET_ACCESS_TOKEN, SET_CATEGORY, SET_CATEGORY_TITLE, SET_USER } from "./types";
 
 // auth
 export function setUser(user){
@@ -20,5 +20,12 @@ export function setAccessToken(token) {
   return {
     type: SET_ACCESS_TOKEN,
     payload: token
+  }
+}
+
+export function setCategory(categories) {
+  return {
+    type: SET_CATEGORY,
+    payload: categories,
   }
 }

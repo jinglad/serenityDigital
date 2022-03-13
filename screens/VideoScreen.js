@@ -17,7 +17,7 @@ const videoList = [
     id: 1,
     title: "Finnish Education - Equal Opportunities for All",
     category: "Web Development",
-    url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
+    // url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
     oid: "a5pxp-JcRTw",
     thumbnail:
       "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
@@ -26,7 +26,7 @@ const videoList = [
     id: 2,
     title: "Finnish Education - Equal Opportunities for All",
     category: "Web Development",
-    url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
+    // url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
     oid: "a5pxp-JcRTw",
     thumbnail:
       "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
@@ -35,7 +35,7 @@ const videoList = [
     id: 3,
     title: "Finnish Education - Equal Opportunities for All",
     category: "Web Development",
-    url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
+    // url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
     oid: "a5pxp-JcRTw",
     thumbnail:
       "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
@@ -44,7 +44,7 @@ const videoList = [
     id: 4,
     title: "Finnish Education - Equal Opportunities for All",
     category: "Web Development",
-    url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
+    // url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
     oid: "a5pxp-JcRTw",
     thumbnail:
       "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
@@ -53,7 +53,7 @@ const videoList = [
     id: 5,
     title: "Finnish Education - Equal Opportunities for All",
     category: "Web Development",
-    url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
+    // url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
     oid: "a5pxp-JcRTw",
     thumbnail:
       "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",

@@ -1,11 +1,18 @@
-import { SET_ACCESS_TOKEN, SET_CATEGORY_TITLE, SET_USER } from "./types";
+import {
+  SET_ACCESS_TOKEN,
+  SET_CATEGORY,
+  SET_CATEGORY_TITLE,
+  SET_USER,
+} from './types';
 
 const initialState = {
-  categoryTitle: "",
+  categoryTitle: '',
   user: null,
   access_token: null,
+  categories: null,
 };
 const videosReducer = (state = initialState, action) => {
+  // console.log(action);
   switch (action.type) {
     case SET_USER:
       return {
@@ -17,11 +24,16 @@ const videosReducer = (state = initialState, action) => {
         ...state,
         categoryTitle: action.payload,
       };
-    case SET_ACCESS_TOKEN: 
+    case SET_ACCESS_TOKEN:
       return {
         ...state,
-        access_token: action.payload
-      }
+        access_token: action.payload,
+      };
+    case SET_CATEGORY:
+      return {
+        ...state,
+        categories: action.payload,
+      };
     default:
       return state;
   }

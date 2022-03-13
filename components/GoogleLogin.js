@@ -47,7 +47,7 @@ const GoogleLogin = ({setUser, setLoaded}) => {
 
   return (
     <GoogleSigninButton
-      style={{width: 300, height: 60, marginHorizontal: 'auto', marginTop: 10}}
+      style={{width: 300, height: 60, marginHorizontal: 'auto', marginTop: 10, borderRadius: 5}}
       size={GoogleSigninButton.Size.Wide}
       color={GoogleSigninButton.Color.Dark}
       onPress={signIn}
