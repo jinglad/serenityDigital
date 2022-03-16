@@ -19,17 +19,38 @@ import {
 } from '../redux/actions';
 import GoogleLogin from '../components/GoogleLogin';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 const HomeScreen = ({navigation}) => {
   const {user, access_token} = useSelector(state => state.videos);
   const dispatch = useDispatch();
 
-  const logOut = () => {
+  const logOut = async () => {
     dispatch(setAccessToken(null));
     dispatch(setCategory(null));
     dispatch(setCategoryTitle(null));
     dispatch(setUser(null));
+    try {
+      await GoogleSignin.signOut();
+    } catch (err) {
+      console.log(err.message)
+    }
   };
+
+  // const logOut = async () => {
+  //   try {
+  //     await GoogleSignin.signOut();
+  //     // this.setState({user: null}); // Remember to remove the user from your app's state as well
+  //     console.log("sign out successfully");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   // console.log(access_token);
   return (
     <SafeAreaView style={styles.AndroidSafeArea}>
@@ -57,6 +78,7 @@ const HomeScreen = ({navigation}) => {
                 }}
                 title={'Register'}
                 onPress={() => navigation.navigate('Registration')}
+                // onPress={logOut}
               />
               <Button
                 containerStyle={styles.button}

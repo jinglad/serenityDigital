@@ -1,10 +1,27 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Input} from 'react-native-elements/dist/input/Input';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {Button} from 'react-native-elements';
+import { useSelector } from 'react-redux';
+import {BASE_URL} from '@env';
 
 const Profile = () => {
+  const {access_token} = useSelector(state => state.videos);
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/accounts/v1/user/`, {
+      method: 'GET',
+      headers: {
+        "content-type": "application/json",
+        "Authorization": `Token ${access_token}`
+      }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => alert(error.message))
+  },[])
+
   return (
     <View style={styles.profile}>
       <View style={{marginTop: 30}}>

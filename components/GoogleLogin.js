@@ -17,21 +17,28 @@ const GoogleLogin = ({setUser, setLoaded}) => {
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
       const userInfo = await GoogleSignin.signIn();
-      // console.log(userInfo.idToken);
-      if (userInfo.idToken) {
+      const {idToken} = await GoogleSignin.getTokens();
+      if(Platform.OS === 'android'){
+        
+      }
+      console.log(idToken);
+      if (idToken) {
         fetch(`${BASE_URL}/api/accounts/v1/google/login/`, {
           method: 'POST',
           headers: {
+            Accept: 'application/json',
             'content-type': 'application/json',
           },
-          body: JSON.stringify({access_token: userInfo.idToken}),
+          body: JSON.stringify({access_token: idToken}),
         })
           .then(res => res.json())
-          .then(data => console.log('google auth token ', data));
+          .then(data => console.log('google auth token ', data))
+          .catch(err => console.log(err.message));
       }
       // console.log(userInfo2)
       // console.log(userGoogleInfo);
-    } catch (error) {
+    } 
+    catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // console.log('Sign ');
         alert(error.message);
@@ -47,7 +54,13 @@ const GoogleLogin = ({setUser, setLoaded}) => {
 
   return (
     <GoogleSigninButton
-      style={{width: 300, height: 60, marginHorizontal: 'auto', marginTop: 10, borderRadius: 5}}
+      style={{
+        width: 300,
+        height: 60,
+        marginHorizontal: 'auto',
+        marginTop: 10,
+        borderRadius: 5,
+      }}
       size={GoogleSigninButton.Size.Wide}
       color={GoogleSigninButton.Color.Dark}
       onPress={signIn}

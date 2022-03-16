@@ -126,13 +126,15 @@ const CategoryScreen = ({navigation}) => {
           Find categories of your interest
         </Text>
       </View>
-      <FlatList
+      {
+        categories && <FlatList
         data={categories}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         ListFooterComponent={<View style={{height: 120}} />}
         // style={{flex: 1}}
       />
+      }
     </SafeAreaView>
   );
 };
@@ -143,6 +145,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     backgroundColor: '#232c38',
+    height: '100%',
   },
   category__top: {
     marginBottom: 30,

@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setAccessToken, setUser} from '../redux/actions';
 
 const Login = ({navigation}) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [loader, setLoader] = useState(false);
@@ -22,6 +22,7 @@ const Login = ({navigation}) => {
   // console.log(access_token);
 
   const signIn = () => {
+    // console.log(username, password);
     setLoader(true);
     fetch(`${BASE_URL}/api/accounts/v1/login/`, {
       method: 'POST',
@@ -29,22 +30,29 @@ const Login = ({navigation}) => {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        username,
+        email,
         password,
       }),
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data);
         setLoader(false);
-        dispatch(
-          setUser({
-            username: data?.username,
-            email: data?.email,
-          }),
-        );
         dispatch(setAccessToken(data?.token));
-        setUsername('');
+          fetch(`${BASE_URL}/api/accounts/v1/current_user/`,{
+            method: 'GET',
+            headers: {
+              "content-type": 'application/json',
+              "Authorization": `token ${data.token}`
+            }
+          })
+          .then(res => res.json())
+          .then(user => {
+            dispatch(setUser(user))
+          })
+        setEmail('');
         setPassword('');
+
         if (data?.token) {
           navigation.navigate('CategoryTab');
         } else {
@@ -66,12 +74,12 @@ const Login = ({navigation}) => {
       <View>
         <View style={styles.registrationForm}>
           <Input
-            placeholder="Username"
+            placeholder="Email"
             // leftIcon={<AntDesign name="mail" size={24} color="white" />}
             // autoFocus
-            type="text"
-            value={username}
-            onChangeText={text => setUsername(text)}
+            type="email"
+            value={email}
+            onChangeText={text => setEmail(text)}
             containerStyle={styles.input}
             style={{color: 'white', fontSize: 14}}
           />
