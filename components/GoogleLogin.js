@@ -18,10 +18,10 @@ const GoogleLogin = ({setUser, setLoaded}) => {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
       const userInfo = await GoogleSignin.signIn();
       const {idToken} = await GoogleSignin.getTokens();
-      if(Platform.OS === 'android'){
+      // if(Platform.OS === 'android'){
         
-      }
-      console.log(idToken);
+      // }
+      // console.log(idToken);
       if (idToken) {
         fetch(`${BASE_URL}/api/accounts/v1/google/login/`, {
           method: 'POST',

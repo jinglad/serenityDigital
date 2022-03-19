@@ -19,6 +19,7 @@ import Profile from './screens/Profile';
 // import Entypo from 'react-native-vector-icons/Entypo';
 // import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Icon} from 'react-native-elements';
+import UpdateProfile from './screens/UpdateProfile';
 
 const CategoryTabs = () => {
   const Tab = createBottomTabNavigator();
@@ -78,6 +79,7 @@ const App = () => {
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="CategoryTab" component={CategoryTabs} />
               <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
+              <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>

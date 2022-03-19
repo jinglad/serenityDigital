@@ -36,7 +36,7 @@ const Login = ({navigation}) => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         setLoader(false);
         dispatch(setAccessToken(data?.token));
           fetch(`${BASE_URL}/api/accounts/v1/current_user/`,{

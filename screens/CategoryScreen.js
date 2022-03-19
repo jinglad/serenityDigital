@@ -127,7 +127,7 @@ const CategoryScreen = ({navigation}) => {
         </Text>
       </View>
       {
-        categories && <FlatList
+        categories?.length > 0 && <FlatList
         data={categories}
         renderItem={renderItem}
         keyExtractor={item => item.id}

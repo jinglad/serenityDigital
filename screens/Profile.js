@@ -6,27 +6,29 @@ import {Button} from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import {BASE_URL} from '@env';
 
-const Profile = () => {
-  const {access_token} = useSelector(state => state.videos);
+const Profile = ({navigation}) => {
+  const {access_token, user} = useSelector(state => state.videos);
 
-  useEffect(() => {
-    fetch(`${BASE_URL}/api/accounts/v1/user/`, {
-      method: 'GET',
-      headers: {
-        "content-type": "application/json",
-        "Authorization": `Token ${access_token}`
-      }
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => alert(error.message))
-  },[])
+  console.log(user);
+
+  // useEffect(() => {
+  //   fetch(`${BASE_URL}/api/accounts/v1/user/`, {
+  //     method: 'GET',
+  //     headers: {
+  //       "content-type": "application/json",
+  //       "Authorization": `Token ${access_token}`
+  //     }
+  //   })
+  //   .then(response => response.json())
+  //   .then(data => console.log(data))
+  //   .catch(error => alert(error.message))
+  // },[])
 
   return (
     <View style={styles.profile}>
       <View style={{marginTop: 30}}>
-        <Text style={{color: 'white', fontSize: 18, textAlign: 'center'}}>
-          Hi, Jin
+        <Text style={{color: 'white', fontSize: 18, textAlign: 'center', textTransform: 'capitalize'}}>
+          Hi, {user?.username}
         </Text>
         <Text style={{color: 'white', fontSize: 16, textAlign: 'center'}}>
           Your Profile
@@ -52,7 +54,7 @@ const Profile = () => {
             }}>
             <Icon type="entypo" name="email" size={30} color="white" />
             <View style={{marginLeft: 10}}>
-              <Text style={{color: 'white', fontSize: 18}}>test@gmail.com</Text>
+              <Text style={{color: 'white', fontSize: 18}}>{user?.email}</Text>
               <Text style={{color: 'white', fontSize: 12}}>Email</Text>
             </View>
           </View>
@@ -65,7 +67,7 @@ const Profile = () => {
             }}>
             <Icon type="entypo" name="phone" size={30} color="white" />
             <View style={{marginLeft: 10}}>
-              <Text style={{color: 'white', fontSize: 18}}>+8801456932510</Text>
+              <Text style={{color: 'white', fontSize: 18}}>{user?.phone || "Not added"}</Text>
               <Text style={{color: 'white', fontSize: 12}}>Phone</Text>
             </View>
           </View>
@@ -83,7 +85,7 @@ const Profile = () => {
               color="white"
             />
             <View style={{marginLeft: 10}}>
-              <Text style={{color: 'white', fontSize: 18}}>Nature</Text>
+              <Text style={{color: 'white', fontSize: 18}}>{user?.content_choice || "Not added"}</Text>
               <Text style={{color: 'white', fontSize: 12}}>
                 Content You like
               </Text>
@@ -98,7 +100,7 @@ const Profile = () => {
             }}>
             <Icon type="antdesign" name="home" size={30} color="white" />
             <View style={{marginLeft: 10}}>
-              <Text style={{color: 'white', fontSize: 18}}>Bangladesh</Text>
+              <Text style={{color: 'white', fontSize: 18}}>{user?.country || "Not added"}</Text>
               <Text style={{color: 'white', fontSize: 12}}>Country</Text>
             </View>
           </View>
@@ -112,7 +114,7 @@ const Profile = () => {
             <Icon type="entypo" name="language" size={30} color="white" />
             <View style={{marginLeft: 10}}>
               <Text style={{color: 'white', fontSize: 18}}>
-                Bangla, English
+                {user?.language || "Not added"}
               </Text>
               <Text style={{color: 'white', fontSize: 12}}>Language</Text>
             </View>
@@ -126,7 +128,7 @@ const Profile = () => {
             }}>
             <Icon type="antdesign" name="user" size={30} color="white" />
             <View style={{marginLeft: 10}}>
-              <Text style={{color: 'white', fontSize: 16}}>Male</Text>
+              <Text style={{color: 'white', fontSize: 16}}>{user?.gender || "Not added"}</Text>
               <Text style={{color: 'white', fontSize: 12}}>Gender</Text>
             </View>
           </View>
@@ -144,8 +146,8 @@ const Profile = () => {
               color="white"
             />
             <View style={{marginLeft: 10}}>
-              <Text style={{color: 'white', fontSize: 16}}>Age</Text>
-              <Text style={{color: 'white', fontSize: 12}}>24 years</Text>
+              <Text style={{color: 'white', fontSize: 16}}>{user?.age || "Not added"}</Text>
+              <Text style={{color: 'white', fontSize: 12}}>Age</Text>
             </View>
           </View>
         </View>
@@ -163,6 +165,7 @@ const Profile = () => {
             // marginTop: 20,
             width: '80%',
           }}
+          onPress={() => navigation.navigate('UpdateProfile')}
         />
       </View>
     </View>
