@@ -9,26 +9,26 @@ import {BASE_URL} from '@env';
 const Profile = ({navigation}) => {
   const {access_token, user} = useSelector(state => state.videos);
 
-  console.log(user);
+  // console.log(user);
 
-  // useEffect(() => {
-  //   fetch(`${BASE_URL}/api/accounts/v1/user/`, {
-  //     method: 'GET',
-  //     headers: {
-  //       "content-type": "application/json",
-  //       "Authorization": `Token ${access_token}`
-  //     }
-  //   })
-  //   .then(response => response.json())
-  //   .then(data => console.log(data))
-  //   .catch(error => alert(error.message))
-  // },[])
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/accounts/v1/userlist/13`, {
+      method: 'GET',
+      headers: {
+        "content-type": "application/json",
+        "Authorization": `Token ${access_token}`
+      }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => alert(error.message))
+  },[])
 
   return (
     <View style={styles.profile}>
       <View style={{marginTop: 30}}>
         <Text style={{color: 'white', fontSize: 18, textAlign: 'center', textTransform: 'capitalize'}}>
-          Hi, {user?.username}
+          Hi, {user?.full_name || "Buddy"}
         </Text>
         <Text style={{color: 'white', fontSize: 16, textAlign: 'center'}}>
           Your Profile

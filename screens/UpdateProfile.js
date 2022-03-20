@@ -10,9 +10,10 @@ import {
   Button,
 } from 'react-native';
 import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {CheckBox, Input} from 'react-native-elements';
 import {BASE_URL} from '@env';
+import {setAccessToken, setUser} from '../redux/actions';
 
 const UpdateProfile = () => {
   const {user, access_token} = useSelector(state => state.videos);
@@ -21,12 +22,14 @@ const UpdateProfile = () => {
   const [country, setCountry] = useState('');
   const [content, setContent] = useState('');
   const [age, setAge] = useState(null);
-  const [checked, setChecked] = useState(null);
+  const [checked, setChecked] = useState("");
   // console.log(user);
 
+  const dispatch = useDispatch();
+
   const submit = () => {
-    fetch(`${BASE_URL}/api/accounts/v1/userList/${user.id}`, {
-      method: 'POST',
+    fetch(`${BASE_URL}/api/accounts/v1/userlist/${user.id}/`, {
+      method: 'PUT',
       headers: {
         'content-type': 'application/json',
         Authorization: `token ${access_token}`,
@@ -43,6 +46,7 @@ const UpdateProfile = () => {
       .then(res => res.json())
       .then(data => {
         console.log(data);
+        dispatch(setUser(data));
       })
       .catch(error => alert(error.message));
   };
