@@ -46,20 +46,20 @@ const UpdateProfile = () => {
       .then(res => res.json())
       .then(data => {
         console.log(data);
-        dispatch(setUser(data));
+        // dispatch(setUser(data));
       })
       .catch(error => alert(error.message));
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Text style={{color: 'white', textAlign: 'center', fontSize: 20}}>
         Hello, {user?.full_name || 'Buddy'}
       </Text>
       <Text style={{color: 'white', textAlign: 'center', fontSize: 16}}>
         Update your profile here
       </Text>
-      <KeyboardAvoidingView style={{width: 350}} behavior="padding">
+      <View style={{width: 350, marginTop: 40}}>
         <Input
           placeholder="Full Name"
           type="text"
@@ -135,8 +135,8 @@ const UpdateProfile = () => {
           <Button title="Save" onPress={submit} />
         </View>
         <View style={{height: 100}}></View>
-      </KeyboardAvoidingView>
-    </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     backgroundColor: '#232c38',
     alignItems: 'center',
+    // height: "100vh",
   },
   inputContainer: {},
   input: {

@@ -92,7 +92,7 @@ const CategoryScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/category/v1/items/`, {
+    fetch(`${BASE_URL}/api/category/v1/categories/`, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
