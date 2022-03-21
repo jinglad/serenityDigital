@@ -15,7 +15,7 @@ import {CheckBox, Input} from 'react-native-elements';
 import {BASE_URL} from '@env';
 import {setAccessToken, setUser} from '../redux/actions';
 
-const UpdateProfile = () => {
+const UpdateProfile = ({navigation}) => {
   const {user, access_token} = useSelector(state => state.videos);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -23,13 +23,16 @@ const UpdateProfile = () => {
   const [content, setContent] = useState('');
   const [age, setAge] = useState(null);
   const [checked, setChecked] = useState("");
+
+  const [loader, setLoader] = useState(false);
   // console.log(user);
 
   const dispatch = useDispatch();
 
   const submit = () => {
+    setLoader(true);
     fetch(`${BASE_URL}/api/accounts/v1/userlist/${user.id}/`, {
-      method: 'PUT',
+      method: 'PATCH',
       headers: {
         'content-type': 'application/json',
         Authorization: `token ${access_token}`,
@@ -45,8 +48,21 @@ const UpdateProfile = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
-        // dispatch(setUser(data));
+        // console.log(data);
+        setLoader(false);
+        setChecked("");
+        setName("");
+        setPhone("");
+        setAge("");
+        setCountry("");
+        setContent("");
+        if(data.token) {
+          dispatch(setUser(data));
+          navigation.navigate('Profile');
+        }
+
+       
+        
       })
       .catch(error => alert(error.message));
   };
@@ -112,9 +128,9 @@ const UpdateProfile = () => {
               title="Male"
               checkedIcon="dot-circle-o"
               uncheckedIcon="circle-o"
-              checked={checked === 'male' && true}
+              checked={checked === 'Male' && true}
               onPress={() => {
-                setChecked('male');
+                setChecked('Male');
               }}
             />
           </View>
@@ -124,15 +140,15 @@ const UpdateProfile = () => {
               title="Female"
               checkedIcon="dot-circle-o"
               uncheckedIcon="circle-o"
-              checked={checked === 'female' && true}
+              checked={checked === 'Female' && true}
               onPress={() => {
-                setChecked('female');
+                setChecked('Female');
               }}
             />
           </View>
         </View>
         <View style={{marginTop: 30}}>
-          <Button title="Save" onPress={submit} />
+          <Button title={loader ? "Loading..." : "Save"} onPress={submit} />
         </View>
         <View style={{height: 100}}></View>
       </View>
