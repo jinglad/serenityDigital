@@ -40,17 +40,6 @@ const Login = ({navigation}) => {
         setLoader(false);
         dispatch(setAccessToken(data?.token));
         dispatch(setUser(data))
-          // fetch(`${BASE_URL}/api/accounts/v1/current_user/`,{
-          //   method: 'GET',
-          //   headers: {
-          //     "content-type": 'application/json',
-          //     "Authorization": `token ${data.token}`
-          //   }
-          // })
-          // .then(res => res.json())
-          // .then(user => {
-          //   dispatch(setUser(user))
-          // })
         setEmail('');
         setPassword('');
 

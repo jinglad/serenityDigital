@@ -41,16 +41,6 @@ const HomeScreen = ({navigation}) => {
     }
   };
 
-  // const logOut = async () => {
-  //   try {
-  //     await GoogleSignin.signOut();
-  //     // this.setState({user: null}); // Remember to remove the user from your app's state as well
-  //     console.log("sign out successfully");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   // console.log(access_token);
   return (
     <SafeAreaView style={styles.AndroidSafeArea}>
@@ -94,7 +84,7 @@ const HomeScreen = ({navigation}) => {
             </View>
             {/* <Divider width={2} /> */}
             <Text style={{color: 'white', fontSize: 16}}>Or</Text>
-            <GoogleLogin />
+            <GoogleLogin navigation={navigation} />
           </>
         ) : (
           <View style={{marginTop: 10}}>

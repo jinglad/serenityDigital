@@ -8,124 +8,124 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import React from "react";
-import { useSelector } from "react-redux";
+} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {setVideos} from '../redux/actions';
+import {BASE_URL} from '@env';
+import {VideosContext} from '../App';
 
-const videoList = [
-  {
-    id: 1,
-    title: "Finnish Education - Equal Opportunities for All",
-    category: "Web Development",
-    // url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
-    oid: "a5pxp-JcRTw",
-    thumbnail:
-      "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
-  },
-  {
-    id: 2,
-    title: "Finnish Education - Equal Opportunities for All",
-    category: "Web Development",
-    // url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
-    oid: "a5pxp-JcRTw",
-    thumbnail:
-      "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
-  },
-  {
-    id: 3,
-    title: "Finnish Education - Equal Opportunities for All",
-    category: "Web Development",
-    // url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
-    oid: "a5pxp-JcRTw",
-    thumbnail:
-      "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
-  },
-  {
-    id: 4,
-    title: "Finnish Education - Equal Opportunities for All",
-    category: "Web Development",
-    // url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
-    oid: "a5pxp-JcRTw",
-    thumbnail:
-      "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
-  },
-  {
-    id: 5,
-    title: "Finnish Education - Equal Opportunities for All",
-    category: "Web Development",
-    // url: require('../assets/videos/Finnish Education - Equal Opportunities for All.mp4'),
-    oid: "a5pxp-JcRTw",
-    thumbnail:
-      "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
-  },
-];
-
-const Item = ({ title, thumbnail, url, navigation, oid, id }) => (
+const Item = ({title, thumbnail, url, navigation, oid, id}) => (
   <TouchableOpacity
-    style={{ paddingLeft: 10, paddingRight: 10 }}
+    style={{paddingLeft: 10, paddingRight: 10}}
     onPress={() => {
-      navigation.navigate("VideoPlayer",{
-        oid: oid
+      navigation.navigate('VideoPlayer', {
+        oid: oid,
       });
-    }}
-  >
+    }}>
     <View style={styles.item}>
-      <Image style={styles.category__image} source={{ uri: thumbnail }} />
-      <View style={{ marginTop: 10, overflow: "hidden" }}>
+      <Image style={styles.category__image} source={{uri: thumbnail}} />
+      <View style={{marginTop: 10, overflow: 'hidden'}}>
         <Text style={styles.title}>{title}</Text>
       </View>
     </View>
   </TouchableOpacity>
 );
 
-const VideoScreen = ({ navigation }) => {
-  const { categoryTitle } = useSelector((state) => state.videos);
+const VideoScreen = ({navigation}) => {
+  const {categoryTitle} = useSelector(state => state.videos);
+  const dispatch = useDispatch();
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [videoList, setVideoList] = useContext(VideosContext);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchData = async () => {
+      
+      const response = await fetch(
+        `${BASE_URL}/api/category/v1/video/?category=${categoryTitle}`,
+      );
+      const res = await response.json();
+      if (response.status === 200) {
+        dispatch({
+          type: 'SET_VIDEOS',
+          payload: res,
+        });
+        setVideos(res);
+        setLoading(false);
+      }
+      if (!response.ok) {
+        alert(
+          'An error occured while fetching data. Please try again in a few minutes.',
+        );
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [categoryTitle]);
 
   // console.log("categoryTitle ", categoryTitle);
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <Item
       navigation={navigation}
       title={item.title}
       thumbnail={item.thumbnail}
-      url={item.url}
-      oid={item.oid}
+      url={item.youtube_video_link}
+      oid={item.video_oid}
       id={item.id}
     />
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ marginBottom: 15 }}>
+      <View style={{marginBottom: 15}}>
         <Image
           style={{
-            width: "90%",
+            width: '90%',
             height: 200,
             borderRadius: 15,
-            alignSelf: "center",
+            alignSelf: 'center',
           }}
           source={{
-            uri: "https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400",
+            uri: 'https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400',
           }}
         />
         <Text
           style={{
-            fontSize: 20,
+            fontSize: 14,
             marginLeft: 25,
             // fontWeight: "bold",
-            color: "white",
+            color: 'white',
             marginVertical: 10,
-          }}
-        >
+          }}>
           Videos from category - {categoryTitle}
         </Text>
       </View>
-      <FlatList
-        data={videoList}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        ListFooterComponent={<View style={{height: 300}}/>}
-      />
+      <>
+        {loading ? (
+          <Text style={{color: 'white', marginTop: 20, textAlign: 'center'}}>
+            Loading...
+          </Text>
+        ) : (
+          <>
+            {videos?.length > 0 ? (
+              <FlatList
+                data={videos}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                ListFooterComponent={<View style={{height: 300}} />}
+              />
+            ) : (
+              <Text
+                style={{color: 'white', marginTop: 20, textAlign: 'center'}}>
+                No Videos Available
+              </Text>
+            )}
+          </>
+        )}
+      </>
     </SafeAreaView>
   );
 };
@@ -134,25 +134,26 @@ export default VideoScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: "#232c38",
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    backgroundColor: '#232c38',
+    height: '100%',
   },
   item: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 5,
     padding: 5,
     borderRadius: 5,
-    backgroundColor: "#100f30",
-    overflow: "hidden",
+    backgroundColor: '#100f30',
+    overflow: 'hidden',
   },
   title: {
     fontSize: 16,
     marginLeft: 10,
-    color: "white",
+    color: 'white',
     // flex: 1,
     // flexWrap: "wrap",
-    width: 220
+    width: 220,
   },
   category__image: {
     width: 100,

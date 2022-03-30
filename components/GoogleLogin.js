@@ -6,33 +6,39 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {Google_oAuth_client_id, BASE_URL} from '@env';
+import { useDispatch } from 'react-redux';
+import { setAccessToken, setUser } from '../redux/actions';
 
 GoogleSignin.configure({
   webClientId: Google_oAuth_client_id,
   offlineAccess: true,
 });
 
-const GoogleLogin = ({setUser, setLoaded}) => {
+const GoogleLogin = ({navigation}) => {
+
+  const dispatch = useDispatch();
+
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
       const userInfo = await GoogleSignin.signIn();
-      const {idToken} = await GoogleSignin.getTokens();
-      // if(Platform.OS === 'android'){
-        
-      // }
-      // console.log(idToken);
-      if (idToken) {
+      const {idToken, accessToken} = await GoogleSignin.getTokens();
+      if (accessToken) {
         fetch(`${BASE_URL}/api/accounts/v1/google/login/`, {
           method: 'POST',
           headers: {
-            Accept: 'application/json',
             'content-type': 'application/json',
           },
-          body: JSON.stringify({access_token: idToken}),
+          body: JSON.stringify({access_token: accessToken}),
         })
           .then(res => res.json())
-          .then(data => console.log('google auth token ', data))
+          .then(data => {
+            if(data?.token) {
+              dispatch(setUser(data));
+              dispatch(setAccessToken(data.token));
+              navigation.navigate('CategoryTab');
+            }
+          })
           .catch(err => console.log(err.message));
       }
       // console.log(userInfo2)
@@ -64,9 +70,7 @@ const GoogleLogin = ({setUser, setLoaded}) => {
       size={GoogleSigninButton.Size.Wide}
       color={GoogleSigninButton.Color.Dark}
       onPress={signIn}
-      // title="Sign In with Google"
     />
-    // <Button title="Google Sign in" />
   );
 };
 

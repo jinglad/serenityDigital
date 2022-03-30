@@ -14,50 +14,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setCategory, setCategoryTitle} from '../redux/actions';
 import {BASE_URL} from '@env';
 
-const categoryData = [
-  {
-    id: 1,
-    category: 'Nature',
-    img: 'https://lh3.googleusercontent.com/W7wMzRYwGnx4zxxbNn3hr31pTKBnA7XFnRBEAnAC7eGCQ7BUF8gMjlSDtPmQJEWw554TY6a06qBHAekzDQYYYbYAGuX4BtEIwipUlYbyA1fE9fC-OnmpCsu_iGsGCkPaaWlIUDyZgQ=w2400',
-    videos: 7,
-  },
-  {
-    id: 2,
-    category: 'Photography',
-    img: 'https://lh3.googleusercontent.com/SWbuBrXPHHtV1m_ki3PFuDvkWBXlk4DcrAjcBXUhFfJ-UWJKvBj6nPknHZZZLLc5UWEKO7pgqvPJ62vDssZkozLArkf0lsU2FA7v91Ps_7_MUZCfCE8VQSqmbQj7cD-ZjSklAAKaSQ=w2400',
-    videos: 14,
-  },
-  {
-    id: 3,
-    category: 'Web Development',
-    img: 'https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400',
-    videos: 23,
-  },
-  {
-    id: 4,
-    category: 'Nature',
-    img: 'https://lh3.googleusercontent.com/W7wMzRYwGnx4zxxbNn3hr31pTKBnA7XFnRBEAnAC7eGCQ7BUF8gMjlSDtPmQJEWw554TY6a06qBHAekzDQYYYbYAGuX4BtEIwipUlYbyA1fE9fC-OnmpCsu_iGsGCkPaaWlIUDyZgQ=w2400',
-    videos: 7,
-  },
-  {
-    id: 5,
-    category: 'Photography',
-    img: 'https://lh3.googleusercontent.com/SWbuBrXPHHtV1m_ki3PFuDvkWBXlk4DcrAjcBXUhFfJ-UWJKvBj6nPknHZZZLLc5UWEKO7pgqvPJ62vDssZkozLArkf0lsU2FA7v91Ps_7_MUZCfCE8VQSqmbQj7cD-ZjSklAAKaSQ=w2400',
-    videos: 14,
-  },
-  {
-    id: 6,
-    category: 'Web Development',
-    img: 'https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400',
-    videos: 23,
-  },
-  {
-    id: 7,
-    category: 'Web Development',
-    img: 'https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400',
-    videos: 23,
-  },
-];
 
 const Item = ({category, img, videos, navigation, handleSetCategory}) => (
   <TouchableOpacity
@@ -126,15 +82,15 @@ const CategoryScreen = ({navigation}) => {
           Find categories of your interest
         </Text>
       </View>
-      {
-        categories?.length > 0 && <FlatList
-        data={categories}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        ListFooterComponent={<View style={{height: 120}} />}
-        // style={{flex: 1}}
-      />
-      }
+      {categories?.length > 0 && (
+        <FlatList
+          data={categories}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          ListFooterComponent={<View style={{height: 120}} />}
+          // style={{flex: 1}}
+        />
+      )}
     </SafeAreaView>
   );
 };

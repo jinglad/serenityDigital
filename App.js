@@ -1,5 +1,5 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {createContext, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -33,8 +33,8 @@ const CategoryTabs = () => {
           if (route.name == 'Category') {
             // imageSource = require('./assets/images/list.svg');
             imageSource = 'list';
-            type = 'ionicon'; 
-          } 
+            type = 'ionicon';
+          }
           if (route.name == 'Videos') {
             imageSource = 'videocam';
             type = 'ionicon';
@@ -44,7 +44,9 @@ const CategoryTabs = () => {
             type = 'evilicon';
           }
 
-          return <Icon name={imageSource} type={type} size={30} color="black" />;
+          return (
+            <Icon name={imageSource} type={type} size={30} color="black" />
+          );
         },
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
@@ -60,28 +62,37 @@ const CategoryTabs = () => {
   );
 };
 
+export const VideosContext = createContext();
+
 const App = () => {
   const Stack = createNativeStackNavigator();
   // const store = configureStore();
   const {store, persistor} = reduxStore();
 
+  const [videoList, setVideoList] = useState([]);
+
   return (
     <SafeAreaProvider>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <NavigationContainer>
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
-              }}>
-              <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="Registration" component={Registration} />
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="CategoryTab" component={CategoryTabs} />
-              <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
-              <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
-            </Stack.Navigator>
-          </NavigationContainer>
+          <VideosContext.Provider value={[videoList, setVideoList]}>
+            <NavigationContainer>
+              <Stack.Navigator
+                screenOptions={{
+                  headerShown: false,
+                }}>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Registration" component={Registration} />
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="CategoryTab" component={CategoryTabs} />
+                <Stack.Screen
+                  name="VideoPlayer"
+                  component={VideoPlayerScreen}
+                />
+                <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </VideosContext.Provider>
         </PersistGate>
       </Provider>
     </SafeAreaProvider>

@@ -3,6 +3,7 @@ import {
   SET_CATEGORY,
   SET_CATEGORY_TITLE,
   SET_USER,
+  SET_VIDEOS,
 } from './types';
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
   user: null,
   access_token: null,
   categories: null,
+  videos: [],
 };
 const videosReducer = (state = initialState, action) => {
   // console.log(action);
@@ -33,6 +35,11 @@ const videosReducer = (state = initialState, action) => {
       return {
         ...state,
         categories: action.payload,
+      };
+    case SET_VIDEOS:
+      return {
+        ...state,
+        videos: action.payload,
       };
     default:
       return state;

@@ -2,3 +2,4 @@ export const SET_USER = "SET_USER";
 export const SET_CATEGORY_TITLE = "SET_CATEGORY_TITLE";
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 export const SET_CATEGORY = "SET_CATEGORY";
+export const SET_VIDEOS = "SET_VIDEOS";
