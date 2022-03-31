@@ -33,16 +33,16 @@ const Item = ({title, thumbnail, url, navigation, oid, id}) => (
 );
 
 const VideoScreen = ({navigation}) => {
-  const {categoryTitle} = useSelector(state => state.videos);
+  const {categoryTitle, categories} = useSelector(state => state.videos);
   const dispatch = useDispatch();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [videoList, setVideoList] = useContext(VideosContext);
+  const [currentCategory, setCurrentCategory] = useState(null);
 
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
-      
       const response = await fetch(
         `${BASE_URL}/api/category/v1/video/?category=${categoryTitle}`,
       );
@@ -65,7 +65,9 @@ const VideoScreen = ({navigation}) => {
     fetchData();
   }, [categoryTitle]);
 
-  // console.log("categoryTitle ", categoryTitle);
+  useEffect(() => {
+    setCurrentCategory(categories.find(cat => cat.name === categoryTitle));
+  }, [categoryTitle]);
 
   const renderItem = ({item}) => (
     <Item
@@ -89,7 +91,7 @@ const VideoScreen = ({navigation}) => {
             alignSelf: 'center',
           }}
           source={{
-            uri: 'https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400',
+            uri: currentCategory?.category_thumbnail,
           }}
         />
         <Text

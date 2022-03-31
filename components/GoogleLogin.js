@@ -37,6 +37,8 @@ const GoogleLogin = ({navigation}) => {
               dispatch(setUser(data));
               dispatch(setAccessToken(data.token));
               navigation.navigate('CategoryTab');
+            } else {
+              alert("An error is occured. Please try again");
             }
           })
           .catch(err => console.log(err.message));

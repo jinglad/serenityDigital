@@ -12,7 +12,7 @@ const Profile = ({navigation}) => {
   // console.log(user);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/accounts/v1/userlist/${user?.id}`, {
+    fetch(`${BASE_URL}/api/accounts/v1/userlist/${user?.user_info?.id}`, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
@@ -21,7 +21,7 @@ const Profile = ({navigation}) => {
     })
       .then(response => response.json())
       .then(data => console.log(data))
-      .catch(error => alert(error.message));
+      // .catch(error => alert(error.message));
   }, []);
 
   return (
@@ -60,7 +60,7 @@ const Profile = ({navigation}) => {
             }}>
             <Icon type="entypo" name="email" size={30} color="white" />
             <View style={{marginLeft: 10}}>
-              <Text style={{color: 'white', fontSize: 18}}>{user?.email}</Text>
+              <Text style={{color: 'white', fontSize: 18}}>{user?.user_info?.email}</Text>
               <Text style={{color: 'white', fontSize: 12}}>Email</Text>
             </View>
           </View>

@@ -9,57 +9,70 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCategory, setCategoryTitle} from '../redux/actions';
+import {getCategory} from '../data/getCategory';
 import {BASE_URL} from '@env';
 
+const Item = ({category, img, navigation, handleSetCategory}) => {
+  const {user, access_token, categories} = useSelector(state => state.videos);
+  const [count, setCount] = useState(null);
 
-const Item = ({category, img, videos, navigation, handleSetCategory}) => (
-  <TouchableOpacity
-    style={{paddingLeft: 10, paddingRight: 10, flex: 1}}
-    onPress={() => {
-      handleSetCategory(category);
-      // console.log("category ", category);
-      navigation.navigate('Videos');
-    }}>
-    <View style={styles.item}>
-      <Image style={styles.category__image} source={{uri: img}} />
-      <View style={{marginTop: 10}}>
-        <Text style={styles.title}>{category}</Text>
-        <Text style={{fontSize: 14, marginLeft: 10, color: 'white'}}>
-          Videos - {videos}
-        </Text>
+  useEffect(() => {
+    const fetchApi = async () => {
+      const response = await fetch(
+        `${BASE_URL}/api/category/v1/videos_by_category_count/?category=${category}`,
+        {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json',
+            Authorization: 'Token ' + access_token,
+          },
+        },
+      );
+      const res = await response.json();
+      if (response.status === 200) {
+        // console.log(res);
+        setCount(res);
+      }
+      if (!response.ok) {
+        alert('An error occured during fething category. Try again');
+      }
+    };
+    fetchApi();
+  }, []);
+
+  return (
+    <TouchableOpacity
+      style={{paddingLeft: 10, paddingRight: 10, flex: 1}}
+      onPress={() => {
+        handleSetCategory(category);
+        navigation.navigate('Videos');
+      }}>
+      <View style={styles.item}>
+        <Image style={styles.category__image} source={{uri: img}} />
+        <View style={{marginTop: 10}}>
+          <Text style={styles.title}>{category}</Text>
+          <Text style={{fontSize: 14, marginLeft: 10, color: 'white'}}>
+            Videos - {count?.this_category_found_videos}
+          </Text>
+        </View>
       </View>
-    </View>
-  </TouchableOpacity>
-);
+    </TouchableOpacity>
+  );
+};
 
 const CategoryScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const {user, access_token, categories} = useSelector(state => state.videos);
 
-  // console.log(user);
-  // console.log(categories);
-
   const handleSetCategory = category => {
     dispatch(setCategoryTitle(category));
-    // console.log("categpry from handleSetcategory ", category);
   };
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/category/v1/categories/`, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json',
-        Authorization: 'Token ' + access_token,
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        dispatch(setCategory(data));
-      })
-      .catch(err => alert(err.message));
+    getCategory(dispatch, access_token);
   }, []);
 
   const renderItem = ({item}) => (
@@ -67,8 +80,7 @@ const CategoryScreen = ({navigation}) => {
       navigation={navigation}
       handleSetCategory={handleSetCategory}
       category={item.name}
-      img="https://lh3.googleusercontent.com/QBnWTatrdJfL7rLVMnIfTj21IB2kOuCQvG4aOm9Yhjqs-o0c6BCd5Q5BkrZjvCr2engpteOoSQqjCGzKr-C_p_tEgIe9EC18dTmIlOShOkDGg4MsroJNl3N-GV5JIotQQyLKNTe0_g=w2400"
-      videos={7}
+      img={item?.category_thumbnail}
     />
   );
 
@@ -88,7 +100,6 @@ const CategoryScreen = ({navigation}) => {
           renderItem={renderItem}
           keyExtractor={item => item.id}
           ListFooterComponent={<View style={{height: 120}} />}
-          // style={{flex: 1}}
         />
       )}
     </SafeAreaView>
@@ -124,7 +135,5 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 10,
-    // marginBottom: 50,
-    // backgroundColor: "red",
   },
 });
