@@ -59,10 +59,9 @@ const UpdateProfile = ({navigation}) => {
         if(data.token) {
           dispatch(setUser(data));
           navigation.navigate('Profile');
+        } else {
+          alert("An error occured. Please try again in a few moment.");
         }
-
-       
-        
       })
       .catch(error => alert(error.message));
   };

@@ -38,13 +38,12 @@ const Login = ({navigation}) => {
       .then(data => {
         // console.log(data);
         setLoader(false);
-        dispatch(setAccessToken(data?.token));
-        dispatch(setUser(data))
         setEmail('');
         setPassword('');
-
         if (data?.token) {
           navigation.navigate('CategoryTab');
+          dispatch(setAccessToken(data?.token));
+          dispatch(setUser(data.user_info));
         } else {
           alert(
             'Could not authenticate user! please try again with correct credential',

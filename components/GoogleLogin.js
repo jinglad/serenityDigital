@@ -34,7 +34,7 @@ const GoogleLogin = ({navigation}) => {
           .then(res => res.json())
           .then(data => {
             if(data?.token) {
-              dispatch(setUser(data));
+              dispatch(setUser(data.user_info));
               dispatch(setAccessToken(data.token));
               navigation.navigate('CategoryTab');
             } else {

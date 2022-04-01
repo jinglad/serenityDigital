@@ -35,13 +35,34 @@ const Registration = ({navigation}) => {
   // const dispatch = useDispatch();
   const {user} = useSelector(state => state.videos);
 
+  // const signUpCall = async () => {
+  //   const response = await fetch(`${BASE_URL}/api/accounts/v1/register/`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       username,
+  //       email,
+  //       password,
+  //       password2: password,
+  //     }),
+  //   })
+  //   const res = await r
+
+  //   if(response.status === 200) console.log()
+  // }
+
   const signUp = () => {
+    // var csrfCookie = getCookie('csrftoken');
+    // const csrfToken = Cookies.get('csrftoken')
     setLoader(true);
     fetch(`${BASE_URL}/api/accounts/v1/register/`, {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
+        // Accept: 'application/json',
         'Content-Type': 'application/json',
+        // Referer: `${BASE_URL}/api/accounts/v1/register/`,
       },
       body: JSON.stringify({
         username,
@@ -63,16 +84,6 @@ const Registration = ({navigation}) => {
       .catch(error => alert(error.message));
   };
 
-  // const signOut = async () => {
-  //   try {
-  //     await GoogleSignin.signOut();
-  //     console.log('sign out successfully');
-  //     // this.setState({ user: null }); // Remember to remove the user from your app's state as well
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   return (
     <>
       <View style={styles.container} behavior="padding">
@@ -83,7 +94,7 @@ const Registration = ({navigation}) => {
         <View>
           <View style={styles.registrationForm}>
             <Input
-              placeholder="Enter username"
+              placeholder="Username"
               type="text"
               value={username}
               onChangeText={text => setUsername(text)}
@@ -99,7 +110,7 @@ const Registration = ({navigation}) => {
               style={{color: 'white', fontSize: 14}}
             />
             <Input
-              placeholder="password"
+              placeholder="Password"
               secureTextEntry
               type="password"
               value={password}
@@ -146,6 +157,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     backgroundColor: '#232c38',
+    height: '100%',
   },
   heading: {
     fontWeight: '700',
