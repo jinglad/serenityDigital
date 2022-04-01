@@ -17,12 +17,13 @@ import {setAccessToken, setUser} from '../redux/actions';
 
 const UpdateProfile = ({navigation}) => {
   const {user, access_token} = useSelector(state => state.videos);
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [country, setCountry] = useState('');
-  const [content, setContent] = useState('');
-  const [age, setAge] = useState(null);
-  const [checked, setChecked] = useState("");
+  const [name, setName] = useState(user?.full_name);
+  const [phone, setPhone] = useState(user?.phone);
+  const [country, setCountry] = useState(user?.country);
+  const [content, setContent] = useState(user?.content_choice);
+  const [age, setAge] = useState(user?.age);
+  const [checked, setChecked] = useState(user?.gender);
+  const [language, setLanguage] = useState(user?.language);
 
   const [loader, setLoader] = useState(false);
   // console.log(user);
@@ -43,7 +44,8 @@ const UpdateProfile = ({navigation}) => {
         country,
         content_choice: content,
         gender: checked,
-        age
+        age,
+        language
       }),
     })
       .then(res => res.json())
@@ -56,6 +58,7 @@ const UpdateProfile = ({navigation}) => {
         setAge("");
         setCountry("");
         setContent("");
+        setLanguage("");
         if(data.token) {
           dispatch(setUser(data));
           navigation.navigate('Profile');
@@ -104,6 +107,14 @@ const UpdateProfile = ({navigation}) => {
           type="text"
           value={content}
           onChangeText={text => setContent(text)}
+          containerStyle={styles.inputContainer}
+          style={styles.input}
+        />
+        <Input
+          placeholder="Language"
+          type="text"
+          value={language}
+          onChangeText={text => setLanguage(text)}
           containerStyle={styles.inputContainer}
           style={styles.input}
         />

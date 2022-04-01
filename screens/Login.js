@@ -41,9 +41,10 @@ const Login = ({navigation}) => {
         setEmail('');
         setPassword('');
         if (data?.token) {
-          navigation.navigate('CategoryTab');
+          // console.log(data);
           dispatch(setAccessToken(data?.token));
-          dispatch(setUser(data.user_info));
+          dispatch(setUser(data));
+          navigation.navigate('CategoryTab');
         } else {
           alert(
             'Could not authenticate user! please try again with correct credential',

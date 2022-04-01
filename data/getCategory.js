@@ -10,6 +10,7 @@ export const getCategory = async (dispatch, access_token) => {
     }
   })
   const res = await response.json();
+  // console.log(res);
   if(response.status === 200) {
     dispatch(setCategory(res));
     // console.log(res);

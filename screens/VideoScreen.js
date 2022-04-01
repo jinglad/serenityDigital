@@ -33,18 +33,27 @@ const Item = ({title, thumbnail, url, navigation, oid, id}) => (
 );
 
 const VideoScreen = ({navigation}) => {
-  const {categoryTitle, categories} = useSelector(state => state.videos);
+  const {categoryTitle, categories, access_token} = useSelector(state => state.videos);
   const dispatch = useDispatch();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [videoList, setVideoList] = useContext(VideosContext);
   const [currentCategory, setCurrentCategory] = useState(null);
 
+  // console.log(categoryTitle);
+
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
       const response = await fetch(
         `${BASE_URL}/api/category/v1/video/?category=${categoryTitle}`,
+        {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json',
+            Authorization: 'Token ' + access_token,
+          },
+        },
       );
       const res = await response.json();
       if (response.status === 200) {

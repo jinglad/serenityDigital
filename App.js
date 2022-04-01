@@ -35,10 +35,10 @@ const CategoryTabs = () => {
             imageSource = 'list';
             type = 'ionicon';
           }
-          if (route.name == 'Videos') {
-            imageSource = 'videocam';
-            type = 'ionicon';
-          }
+          // if (route.name == 'Videos') {
+          //   imageSource = 'videocam';
+          //   type = 'ionicon';
+          // }
           if (route.name == 'Profile') {
             imageSource = 'user';
             type = 'evilicon';
@@ -56,7 +56,7 @@ const CategoryTabs = () => {
         component={CategoryScreen}
         // screenOptions={screenOptions}
       />
-      <Tab.Screen name="Videos" component={VideoScreen} />
+      {/* <Tab.Screen name="Videos" component={VideoScreen} /> */}
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
@@ -85,6 +85,7 @@ const App = () => {
                 <Stack.Screen name="Registration" component={Registration} />
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="CategoryTab" component={CategoryTabs} />
+                <Stack.Screen name="Videos" component={VideoScreen} />
                 <Stack.Screen
                   name="VideoPlayer"
                   component={VideoPlayerScreen}
