@@ -87,11 +87,11 @@ const HomeScreen = ({navigation}) => {
             <GoogleLogin navigation={navigation} />
           </>
         ) : (
-          <View style={{marginTop: 10}}>
+          <View style={{marginTop: 60}}>
             <Button
               containerStyle={styles.button}
               buttonStyle={{
-                // backgroundColor: '#E61E05',
+                backgroundColor: '#840D01',
                 height: 60,
                 width: '100%',
                 borderRadius: 5,

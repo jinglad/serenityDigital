@@ -82,12 +82,14 @@ const VideoScreen = ({navigation}) => {
     <Item
       navigation={navigation}
       title={item.title}
-      thumbnail={item.thumbnail}
+      thumbnail={item.videos_thumbnail}
       url={item.youtube_video_link}
       oid={item.video_oid}
-      id={item.id}
+      id={item?.id}
     />
   );
+
+  // console.log(access_token);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -125,7 +127,7 @@ const VideoScreen = ({navigation}) => {
               <FlatList
                 data={videos}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item.video_oid}
                 ListFooterComponent={<View style={{height: 300}} />}
               />
             ) : (

@@ -6,11 +6,11 @@ import {
   Text,
   View,
   Dimensions,
-  Button,
   FlatList,
   TouchableOpacity,
   Image,
 } from 'react-native';
+import { Button } from 'react-native-elements';
 import VideoPlayer from 'react-native-video-controls';
 import YouTube from 'react-native-youtube';
 import YoutubePlayer from 'react-native-youtube-iframe';
@@ -42,7 +42,6 @@ const VideoPlayerScreen = ({route, navigation}) => {
   const [status, setStatus] = useState({});
   const [referVideos, setReferVideos] = useState([]);
   const currentVideo = useRef();
-  // const [videoList, setVideoList] = useContext(VideosContext);
 
   const {videos} = useSelector(state => state.videos);
 
@@ -50,10 +49,10 @@ const VideoPlayerScreen = ({route, navigation}) => {
     <Item
       navigation={navigation}
       title={item.title}
-      thumbnail={item.thumbnail}
-      url={item.url}
-      oid={item.oid}
-      id={item.id}
+      thumbnail={item.videos_thumbnail}
+      url={item.youtube_video_link}
+      oid={item.video_oid}
+      id={item?.id}
     />
   );
 
@@ -79,40 +78,53 @@ const VideoPlayerScreen = ({route, navigation}) => {
         // navigator={navigator}
       /> */}
       <YoutubePlayer height={230} videoId={route.params.oid} play />
+      <View style={styles.buttonContainer}>
+        <Button
+          containerStyle={styles.button}
+          buttonStyle={{
+            // backgroundColor: '#E61E05',
+            // height: 60,
+            width: 150,
+            borderRadius: 5,
+          }}
+          title={'Like'}
+          // onPress={() => navigation.navigate('Registration')}
+        />
+        <Button
+          containerStyle={styles.button}
+          buttonStyle={{
+            backgroundColor: '#840D01',
+            // height: 30,
+            width: 150,
+            borderRadius: 5,
+          }}
+          title={'Favourite'}
+          // onPress={() => navigation.navigate('Login')}
+        />
+      </View>
       <Text
         style={{
-          marginLeft: 15,
-          fontSize: 18,
+          marginLeft: 20,
+          marginTop: 10,
+          fontSize: 16,
           width: '90%',
           overflow: 'hidden',
           color: 'white',
         }}>
         {currentVideo.current?.title}
       </Text>
-      {/* <Button title={playing ? 'pause' : 'play'} onPress={togglePlaying} /> */}
-      {/* <View style={{ marginTop: 20 }}> */}
-      {/* <Text
-        style={{
-          marginLeft: 15,
-          marginTop: 30,
-          marginBottom: 10,
-          fontSize: 16,
-          color: 'white',
-        }}>
-        You may want to see
-      </Text> */}
       {referVideos?.length > 0 ? (
         <FlatList
           data={referVideos}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.video_oid}
           ListFooterComponent={<View style={{height: 350}} />}
         />
       ) : (
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <Text
             style={{
-              textAlign:'center',
+              textAlign: 'center',
               color: 'white',
               width: 250,
               margin: 'auto',
@@ -165,5 +177,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     // marginBottom: 50,
     // backgroundColor: "red",
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 5,
+  },
+  button: {
+    margin: 5,
   },
 });

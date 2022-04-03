@@ -11,18 +11,18 @@ const Profile = ({navigation}) => {
 
   // console.log(user);
 
-  useEffect(() => {
-    fetch(`${BASE_URL}/api/accounts/v1/userlist/${user?.id}`, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Token ${access_token}`,
-      },
-    })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => alert(error.message));
-  }, []);
+  // useEffect(() => {
+  //   fetch(`${BASE_URL}/api/accounts/v1/userlist/${user?.id}`, {
+  //     method: 'GET',
+  //     headers: {
+  //       'content-type': 'application/json',
+  //       Authorization: `Token ${access_token}`,
+  //     },
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => console.log(data))
+  //     .catch(error => alert(error.message));
+  // }, []);
 
   return (
     <View style={styles.profile}>

@@ -8,6 +8,7 @@ import {Button, Divider, Input} from 'react-native-elements';
 import {BASE_URL} from '@env';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAccessToken, setUser} from '../redux/actions';
+import { getUserInfo } from '../data/getUserInfo';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
