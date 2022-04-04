@@ -72,10 +72,18 @@ const VideoScreen = ({navigation}) => {
       }
     };
     fetchData();
+
+    return () => {
+      setVideos(null);
+    }
   }, [categoryTitle]);
 
   useEffect(() => {
     setCurrentCategory(categories.find(cat => cat.name === categoryTitle));
+
+    return () => {
+      setCurrentCategory(null);
+    }
   }, [categoryTitle]);
 
   const renderItem = ({item}) => (

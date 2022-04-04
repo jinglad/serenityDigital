@@ -10,12 +10,13 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import { Button } from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import VideoPlayer from 'react-native-video-controls';
 import YouTube from 'react-native-youtube';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {useSelector} from 'react-redux';
 import {VideosContext} from '../App';
+import {BASE_URL} from '@env';
 
 const height = Dimensions.get('screen').height;
 const width = Dimensions.get('screen').width;
@@ -42,8 +43,9 @@ const VideoPlayerScreen = ({route, navigation}) => {
   const [status, setStatus] = useState({});
   const [referVideos, setReferVideos] = useState([]);
   const currentVideo = useRef();
+  const userLiked = useRef();
 
-  const {videos} = useSelector(state => state.videos);
+  const {videos, access_token, user} = useSelector(state => state.videos);
 
   const renderItem = ({item}) => (
     <Item
@@ -60,6 +62,10 @@ const VideoPlayerScreen = ({route, navigation}) => {
     currentVideo.current = videos.find(
       video => video.video_oid === route.params.oid,
     );
+
+    userLiked.current = currentVideo.current?.videolikes?.likeusers?.filter(
+      userId => userId !== user?.id,
+    );
   }, [route.params.oid]);
 
   useEffect(() => {
@@ -67,7 +73,94 @@ const VideoPlayerScreen = ({route, navigation}) => {
     setReferVideos(rest);
   }, [route.params.oid]);
 
+  // console.log(user?.id);
+
+  const postLike = async () => {
+    const response = await fetch(`${BASE_URL}/api/category/v1/like/videos/`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Token ' + access_token,
+      },
+      body: JSON.stringify({
+        likevideo: currentVideo.current?.id,
+        likeusers: [user?.id],
+      }),
+    });
+
+    const res = await response.json();
+
+    if (response.status === 200) {
+      // console.log(res);
+    }
+    if (!response.ok) {
+      // console.log(res);
+      alert(
+        'Sorry, Could not perform the action. Please try again in a few minutes.',
+      );
+    }
+  };
+
+  const updateLike = async (likeusers, id) => {
+    const response = await fetch(
+      `${BASE_URL}/api/category/v1/like/videos/${id}/`,
+      {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Token ' + access_token,
+        },
+        body: JSON.stringify({
+          likevideo: currentVideo.current?.id,
+          likeusers,
+        }),
+      },
+    );
+
+    const res = await response.json();
+
+    if (response.status === 200) {
+      const index = videos?.findIndex(
+        video => video.video_oid === route.params.oid,
+      );
+      videos[index].videolikes = res;
+
+      console.log(videos);
+    }
+
+    if (!response.ok) {
+      alert(
+        'Sorry, Could not perform the action. Please try again in a few minutes.',
+      );
+    }
+  };
+
   // console.log(referVideos);
+
+  const handleLike = () => {
+    if (!currentVideo.current?.videolikes) {
+      postLike();
+    } else {
+      const userExist = currentVideo.current?.videolikes?.likeusers?.find(
+        userId => userId === user?.id,
+      );
+      if (!userExist) {
+        // console.log('creating');
+        currentVideo.current?.videolikes?.likeusers.push(user?.id);
+        // console.log("new ", currentVideo.current?.videolikes?.likeusers)
+        updateLike(
+          currentVideo.current?.videolikes?.likeusers,
+          currentVideo.current?.videolikes?.id,
+        );
+      } else {
+        const newLikeUsers =
+          currentVideo.current?.videolikes?.likeusers?.filter(
+            userId => userId !== user?.id,
+          );
+        updateLike(newLikeUsers, currentVideo.current?.videolikes?.id);
+      }
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -87,8 +180,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
             width: 150,
             borderRadius: 5,
           }}
-          title={'Like'}
-          // onPress={() => navigation.navigate('Registration')}
+          title={userLiked.current ? 'Unlike' : 'Like'}
+          onPress={handleLike}
         />
         <Button
           containerStyle={styles.button}
@@ -106,6 +199,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
         style={{
           marginLeft: 20,
           marginTop: 10,
+          marginBottom: 40,
           fontSize: 16,
           width: '90%',
           overflow: 'hidden',
@@ -145,7 +239,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     // alignItems: "center",
     // justifyContent: "center",
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     backgroundColor: '#232c38',
     height: '100%',
   },

@@ -41,6 +41,10 @@ const Item = ({category, img, navigation, handleSetCategory}) => {
       }
     };
     fetchApi();
+
+    return () => {
+      setCount(null);
+    }
   }, []);
 
   return (

@@ -95,7 +95,7 @@ const HomeScreen = ({navigation}) => {
                 height: 60,
                 width: '100%',
                 borderRadius: 5,
-                marginTop: 10,
+                // marginTop: 10,
               }}
               title={'Choose your category'}
               onPress={() => navigation.navigate('CategoryTab')}
@@ -107,7 +107,7 @@ const HomeScreen = ({navigation}) => {
                 height: 60,
                 width: '100%',
                 borderRadius: 5,
-                marginTop: 10,
+                // marginTop: 10,
               }}
               title={'Log out'}
               onPress={logOut}
@@ -157,5 +157,6 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 5,
+    marginTop: 10,
   },
 });
