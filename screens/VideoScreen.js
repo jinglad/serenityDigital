@@ -20,7 +20,7 @@ const Item = ({title, thumbnail, url, navigation, oid, id}) => (
     style={{paddingLeft: 10, paddingRight: 10}}
     onPress={() => {
       navigation.navigate('VideoPlayer', {
-        oid: oid,
+        id
       });
     }}>
     <View style={styles.item}>

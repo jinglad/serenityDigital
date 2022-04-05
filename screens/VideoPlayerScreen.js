@@ -14,9 +14,10 @@ import {Button} from 'react-native-elements';
 import VideoPlayer from 'react-native-video-controls';
 import YouTube from 'react-native-youtube';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import {useSelector} from 'react-redux';
-import {VideosContext} from '../App';
+import {useDispatch, useSelector} from 'react-redux';
 import {BASE_URL} from '@env';
+import {getUserInfo} from '../data/getUserInfo';
+import { setUser } from '../redux/actions';
 
 const height = Dimensions.get('screen').height;
 const width = Dimensions.get('screen').width;
@@ -42,8 +43,15 @@ const VideoPlayerScreen = ({route, navigation}) => {
   const video = useRef(null);
   const [status, setStatus] = useState({});
   const [referVideos, setReferVideos] = useState([]);
-  const currentVideo = useRef();
-  const userLiked = useRef();
+  const [currentVideo, setCurrentVideo] = useState(null);
+  const [userLiked, setUserLiked] = useState(null);
+  const [liked, setLiked] = useState(1);
+  const [savedVideos, setSavedVideos] = useState(null);
+  const [isSavedNull, setIsSavedNull] = useState(true);
+  const [saved, setSaved] = useState(1);
+  const [currentSaved, setCurrentSaved] = useState(null);
+
+  const dispatch = useDispatch();
 
   const {videos, access_token, user} = useSelector(state => state.videos);
 
@@ -58,22 +66,94 @@ const VideoPlayerScreen = ({route, navigation}) => {
     />
   );
 
-  useEffect(() => {
-    currentVideo.current = videos.find(
-      video => video.video_oid === route.params.oid,
-    );
+  const getCurrentVideo = async (id, access_token) => {
+    const response = await fetch(`${BASE_URL}/api/category/v1/video/${id}`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Token ' + access_token,
+      },
+    });
+    const res = await response.json();
+    if (response.status === 200) {
+      setCurrentVideo(res);
+      // console.log(res);
+      setUserLiked(
+        res?.videolikes?.likeusers?.find(userId => userId === user?.id),
+      );
+    } else {
+      alert(
+        'An error occured fetching Video. Please try again in a few minutes.',
+      );
+    }
+  };
 
-    userLiked.current = currentVideo.current?.videolikes?.likeusers?.filter(
-      userId => userId !== user?.id,
-    );
-  }, [route.params.oid]);
+  const getSavedVideos = async () => {
+    const response = await fetch(`${BASE_URL}/api/category/v1/save/videos/`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Token ' + access_token,
+      },
+    });
+    const res = await response.json();
+    if (response.status === 200) {
+      // console.log(res);
+      if (res?.length > 0) setIsSavedNull(false);
+      const currentUserSavedVideos = res?.find(
+        video => video?.user === user?.id,
+      );
+      // console.log(currentUserSavedVideos);
+      setSavedVideos(currentUserSavedVideos);
+      setCurrentSaved(
+        currentUserSavedVideos?.video?.find(vid => vid === currentVideo?.id),
+      );
+    } else {
+      alert(
+        'An error occured fetching savedvideos. Please try again in a few minutes.',
+      );
+    }
+  };
 
   useEffect(() => {
-    const rest = videos.filter(video => video.video_oid !== route.params.oid);
+    const userInfo = async () => {
+      const response = await fetch(`${BASE_URL}/api/accounts/v1/userlist/${user?.id}`, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Token ${access_token}`,
+        },
+      });
+      const res = await response.json();
+      if (response.status === 200) {
+        console.log(res);
+        dispatch(setUser(res));
+      } else {
+        alert(
+          'An error occured during fetching data. Please try again in a few minutes.',
+        );
+      }
+    }
+
+    userInfo();
+  }, [saved]);
+
+  useEffect(() => {
+    getSavedVideos();
+  }, [route.params.id, saved]);
+
+  useEffect(() => {
+    getCurrentVideo(route.params.id, access_token);
+  }, [route.params.id, liked]);
+
+  useEffect(() => {
+    const rest = videos.filter(video => video.id !== route.params.id);
     setReferVideos(rest);
-  }, [route.params.oid]);
 
-  // console.log(user?.id);
+    return () => {
+      setReferVideos(null);
+    };
+  }, [route.params.id]);
 
   const postLike = async () => {
     const response = await fetch(`${BASE_URL}/api/category/v1/like/videos/`, {
@@ -83,23 +163,22 @@ const VideoPlayerScreen = ({route, navigation}) => {
         Authorization: 'Token ' + access_token,
       },
       body: JSON.stringify({
-        likevideo: currentVideo.current?.id,
+        likevideo: currentVideo?.id,
         likeusers: [user?.id],
       }),
     });
-
     const res = await response.json();
-
     if (response.status === 200) {
-      // console.log(res);
+      setLiked(prev => prev + 1);
     }
     if (!response.ok) {
-      // console.log(res);
       alert(
         'Sorry, Could not perform the action. Please try again in a few minutes.',
       );
     }
   };
+
+  // console.log("user", user);
 
   const updateLike = async (likeusers, id) => {
     const response = await fetch(
@@ -111,7 +190,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
           Authorization: 'Token ' + access_token,
         },
         body: JSON.stringify({
-          likevideo: currentVideo.current?.id,
+          likevideo: currentVideo?.id,
           likeusers,
         }),
       },
@@ -120,12 +199,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
     const res = await response.json();
 
     if (response.status === 200) {
-      const index = videos?.findIndex(
-        video => video.video_oid === route.params.oid,
-      );
-      videos[index].videolikes = res;
-
-      console.log(videos);
+      setLiked(prev => prev + 1);
     }
 
     if (!response.ok) {
@@ -135,29 +209,101 @@ const VideoPlayerScreen = ({route, navigation}) => {
     }
   };
 
-  // console.log(referVideos);
+  // console.log(savedVideos);
 
   const handleLike = () => {
-    if (!currentVideo.current?.videolikes) {
+    if (!currentVideo?.videolikes) {
       postLike();
     } else {
-      const userExist = currentVideo.current?.videolikes?.likeusers?.find(
+      const userExist = currentVideo?.videolikes?.likeusers?.find(
         userId => userId === user?.id,
       );
       if (!userExist) {
-        // console.log('creating');
-        currentVideo.current?.videolikes?.likeusers.push(user?.id);
-        // console.log("new ", currentVideo.current?.videolikes?.likeusers)
+        currentVideo?.videolikes?.likeusers.push(user?.id);
         updateLike(
-          currentVideo.current?.videolikes?.likeusers,
-          currentVideo.current?.videolikes?.id,
+          currentVideo?.videolikes?.likeusers,
+          currentVideo?.videolikes?.id,
         );
       } else {
-        const newLikeUsers =
-          currentVideo.current?.videolikes?.likeusers?.filter(
-            userId => userId !== user?.id,
-          );
-        updateLike(newLikeUsers, currentVideo.current?.videolikes?.id);
+        // console.log("delete")
+        const newLikeUsers = currentVideo?.videolikes?.likeusers?.filter(
+          userId => userId !== user?.id,
+        );
+        updateLike(newLikeUsers, currentVideo?.videolikes?.id);
+      }
+    }
+  };
+
+  // handle favourite
+
+  const createSavedVideos = async () => {
+    const response = await fetch(`${BASE_URL}/api/category/v1/save/videos/`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Token ' + access_token,
+      },
+      body: JSON.stringify({
+        user: user?.id,
+        video: [currentVideo?.id],
+      }),
+    });
+    const res = await response.json();
+    if (response.status === 200) {
+      // console.log("created ", res);
+      setSaved(prev => prev + 1);
+    } else {
+      alert(
+        'Sorry, Could not perform the action. Please try again in a few minutes.',
+      );
+    }
+  };
+
+  const updateSavedVideos = async (id, video) => {
+    const response = await fetch(
+      `${BASE_URL}/api/category/v1/save/videos/${id}/`,
+      {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Token ' + access_token,
+        },
+        body: JSON.stringify({
+          user: user?.id,
+          video,
+        }),
+      },
+    );
+    const res = await response.json();
+    if (response.status === 200) {
+      // console.log("updated ", res);
+      setSaved(prev => prev + 1);
+    } else {
+      // console.log(res);
+      alert(
+        'Sorry, Could not perform the action. Please try again in a few minutes.',
+      );
+    }
+  };
+
+  // console.log(user?.savevideos);
+
+  const handleFavourite = () => {
+    if (isSavedNull) {
+      createSavedVideos();
+    } else {
+      const videoExist = savedVideos?.video?.find(
+        vid => vid === currentVideo?.id,
+      );
+      // console.log(videoExist);
+      if (!videoExist) {
+        savedVideos?.video?.push(currentVideo?.id);
+        updateSavedVideos(savedVideos?.id, savedVideos?.video);
+      } else {
+        const newVideo = savedVideos?.video?.filter(
+          video => video !== currentVideo?.id,
+        );
+        updateSavedVideos(savedVideos?.id, newVideo);
       }
     }
   };
@@ -170,7 +316,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
         toggleResizeModeOnFullscreen={true}
         // navigator={navigator}
       /> */}
-      <YoutubePlayer height={230} videoId={route.params.oid} play />
+      <YoutubePlayer height={230} videoId={currentVideo?.video_oid} play />
       <View style={styles.buttonContainer}>
         <Button
           containerStyle={styles.button}
@@ -180,7 +326,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
             width: 150,
             borderRadius: 5,
           }}
-          title={userLiked.current ? 'Unlike' : 'Like'}
+          title={userLiked ? 'Unlike' : 'Like'}
           onPress={handleLike}
         />
         <Button
@@ -191,8 +337,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
             width: 150,
             borderRadius: 5,
           }}
-          title={'Favourite'}
-          // onPress={() => navigation.navigate('Login')}
+          title={currentSaved ? 'Saved' : 'save'}
+          onPress={handleFavourite}
         />
       </View>
       <Text
@@ -205,13 +351,13 @@ const VideoPlayerScreen = ({route, navigation}) => {
           overflow: 'hidden',
           color: 'white',
         }}>
-        {currentVideo.current?.title}
+        {currentVideo?.title}
       </Text>
       {referVideos?.length > 0 ? (
         <FlatList
           data={referVideos}
           renderItem={renderItem}
-          keyExtractor={item => item.video_oid}
+          keyExtractor={item => item.id}
           ListFooterComponent={<View style={{height: 350}} />}
         />
       ) : (
