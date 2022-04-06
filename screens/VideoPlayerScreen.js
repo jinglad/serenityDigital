@@ -27,7 +27,7 @@ const Item = ({title, thumbnail, url, navigation, oid, id}) => (
     style={{paddingLeft: 10, paddingRight: 10}}
     onPress={() => {
       navigation.navigate('VideoPlayer', {
-        oid: oid,
+        id
       });
     }}>
     <View style={styles.item}>
@@ -115,6 +115,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
     }
   };
 
+  console.log(currentSaved);
+
   useEffect(() => {
     const userInfo = async () => {
       const response = await fetch(`${BASE_URL}/api/accounts/v1/userlist/${user?.id}`, {
@@ -126,7 +128,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
       });
       const res = await response.json();
       if (response.status === 200) {
-        console.log(res);
+        // console.log(res);
         dispatch(setUser(res));
       } else {
         alert(
@@ -140,6 +142,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
 
   useEffect(() => {
     getSavedVideos();
+    console.log("working");
   }, [route.params.id, saved]);
 
   useEffect(() => {
@@ -337,7 +340,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
             width: 150,
             borderRadius: 5,
           }}
-          title={currentSaved ? 'Saved' : 'save'}
+          title={currentSaved ? 'Saved' : 'Save'}
           onPress={handleFavourite}
         />
       </View>

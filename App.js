@@ -20,6 +20,7 @@ import Profile from './screens/Profile';
 // import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Icon} from 'react-native-elements';
 import UpdateProfile from './screens/UpdateProfile';
+import SavedVideos from './screens/SavedVideos';
 
 const CategoryTabs = () => {
   const Tab = createBottomTabNavigator();
@@ -35,10 +36,10 @@ const CategoryTabs = () => {
             imageSource = 'list';
             type = 'ionicon';
           }
-          // if (route.name == 'Videos') {
-          //   imageSource = 'videocam';
-          //   type = 'ionicon';
-          // }
+          if (route.name == 'Saved') {
+            imageSource = 'save';
+            type = 'entypo';
+          }
           if (route.name == 'Profile') {
             imageSource = 'user';
             type = 'evilicon';
@@ -57,6 +58,7 @@ const CategoryTabs = () => {
         // screenOptions={screenOptions}
       />
       {/* <Tab.Screen name="Videos" component={VideoScreen} /> */}
+      <Tab.Screen name="Saved" component={SavedVideos} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
