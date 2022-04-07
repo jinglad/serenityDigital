@@ -12,7 +12,6 @@ import {
 import React, {useEffect, useState} from 'react';
 import {BASE_URL} from '@env';
 import {useSelector} from 'react-redux';
-import { useIsFocused } from '@react-navigation/native';
 
 const Item = ({id, navigation, thumbnail, title, oid}) => {
   // console.log(title);
@@ -34,14 +33,13 @@ const Item = ({id, navigation, thumbnail, title, oid}) => {
   );
 };
 
-const SavedVideos = ({navigation, route}) => {
+const RecentVideos = ({navigation, route}) => {
   const {videos, access_token, user} = useSelector(state => state.videos);
-  const [savedVideos, setSavedVideos] = useState(null);
+  const [recentVideos, setRecentVideos] = useState(null);
   const [loading, setLoading] = useState(false);
-  const isFocused = useIsFocused();
 
-  const getSavedVideos = async () => {
-    const response = await fetch(`${BASE_URL}/api/category/v1/video/?saved`, {
+  const getRecentVideos = async () => {
+    const response = await fetch(`${BASE_URL}/api/category/v1/video/?recent`, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
@@ -51,19 +49,19 @@ const SavedVideos = ({navigation, route}) => {
     const res = await response.json();
     if (response.status === 200) {
       // console.log(res);
-      setSavedVideos(res);
+      setRecentVideos(res);
       setLoading(false);
     } else {
       alert(
-        'An error occured fetching savedvideos. Please try again in a few minutes.',
+        'An error occured fetching recent videos. Please try again in a few minutes.',
       );
     }
   };
 
   useEffect(() => {
     setLoading(true);
-    getSavedVideos();
-  }, [isFocused]);
+    getRecentVideos();
+  }, [route]);
 
   const renderItem = ({item}) => (
     <Item
@@ -81,7 +79,7 @@ const SavedVideos = ({navigation, route}) => {
         <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>
           Hey, {user?.username}
         </Text>
-        <Text style={{fontSize: 16, color: 'white'}}>Your Saved Videos</Text>
+        <Text style={{fontSize: 16, color: 'white'}}>Your Recent Videos</Text>
       </View>
       {loading ? (
         <Text style={{color: 'white', marginTop: 20, textAlign: 'center'}}>
@@ -89,9 +87,9 @@ const SavedVideos = ({navigation, route}) => {
         </Text>
       ) : (
         <>
-          {savedVideos?.length > 0 ? (
+          {recentVideos?.length > 0 ? (
             <FlatList
-              data={savedVideos}
+              data={recentVideos}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               ListFooterComponent={<View style={{height: 120}} />}
@@ -106,7 +104,7 @@ const SavedVideos = ({navigation, route}) => {
                   margin: 'auto',
                   marginTop: 70,
                 }}>
-                No other videos available on this category now
+                No videos available
               </Text>
             </View>
           )}
@@ -116,7 +114,7 @@ const SavedVideos = ({navigation, route}) => {
   );
 };
 
-export default SavedVideos;
+export default RecentVideos;
 
 const styles = StyleSheet.create({
   container: {

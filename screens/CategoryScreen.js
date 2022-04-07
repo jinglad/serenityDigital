@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setCategory, setCategoryTitle} from '../redux/actions';
 import {getCategory} from '../data/getCategory';
 import {BASE_URL} from '@env';
+import { useIsFocused } from '@react-navigation/native';
 
 const Item = ({category, img, navigation, handleSetCategory}) => {
   const {user, access_token, categories} = useSelector(state => state.videos);
@@ -67,9 +68,10 @@ const Item = ({category, img, navigation, handleSetCategory}) => {
   );
 };
 
-const CategoryScreen = ({navigation}) => {
+const CategoryScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {user, access_token, categories} = useSelector(state => state.videos);
+  const isFocused = useIsFocused();
 
   const handleSetCategory = category => {
     dispatch(setCategoryTitle(category));
@@ -77,7 +79,7 @@ const CategoryScreen = ({navigation}) => {
 
   useEffect(() => {
     getCategory(dispatch, access_token);
-  }, []);
+  }, [isFocused]);
 
   const renderItem = ({item}) => (
     <Item

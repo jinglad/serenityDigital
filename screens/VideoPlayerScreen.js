@@ -17,7 +17,7 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import {useDispatch, useSelector} from 'react-redux';
 import {BASE_URL} from '@env';
 import {getUserInfo} from '../data/getUserInfo';
-import { setUser } from '../redux/actions';
+import {setUser} from '../redux/actions';
 
 const height = Dimensions.get('screen').height;
 const width = Dimensions.get('screen').width;
@@ -27,7 +27,7 @@ const Item = ({title, thumbnail, url, navigation, oid, id}) => (
     style={{paddingLeft: 10, paddingRight: 10}}
     onPress={() => {
       navigation.navigate('VideoPlayer', {
-        id
+        id,
       });
     }}>
     <View style={styles.item}>
@@ -50,6 +50,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
   const [isSavedNull, setIsSavedNull] = useState(true);
   const [saved, setSaved] = useState(1);
   const [currentSaved, setCurrentSaved] = useState(null);
+  const [render, setRender] = useState(false);
+  const [currentLoader, setCurrentLoader] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -67,6 +69,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
   );
 
   const getCurrentVideo = async (id, access_token) => {
+    setCurrentLoader(true);
     const response = await fetch(`${BASE_URL}/api/category/v1/video/${id}`, {
       method: 'GET',
       headers: {
@@ -75,6 +78,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
       },
     });
     const res = await response.json();
+    setCurrentLoader(false);
     if (response.status === 200) {
       setCurrentVideo(res);
       // console.log(res);
@@ -105,9 +109,10 @@ const VideoPlayerScreen = ({route, navigation}) => {
       );
       // console.log(currentUserSavedVideos);
       setSavedVideos(currentUserSavedVideos);
-      setCurrentSaved(
-        currentUserSavedVideos?.video?.find(vid => vid === currentVideo?.id),
+      const newCurentSaved = currentUserSavedVideos?.video?.find(
+        vid => vid === currentVideo?.id,
       );
+      setCurrentSaved(newCurentSaved);
     } else {
       alert(
         'An error occured fetching savedvideos. Please try again in a few minutes.',
@@ -115,17 +120,20 @@ const VideoPlayerScreen = ({route, navigation}) => {
     }
   };
 
-  console.log(currentSaved);
+  // console.log(currentSaved);
 
   useEffect(() => {
     const userInfo = async () => {
-      const response = await fetch(`${BASE_URL}/api/accounts/v1/userlist/${user?.id}`, {
-        method: 'GET',
-        headers: {
-          'content-type': 'application/json',
-          Authorization: `Token ${access_token}`,
+      const response = await fetch(
+        `${BASE_URL}/api/accounts/v1/userlist/${user?.id}`,
+        {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json',
+            Authorization: `Token ${access_token}`,
+          },
         },
-      });
+      );
       const res = await response.json();
       if (response.status === 200) {
         // console.log(res);
@@ -135,15 +143,22 @@ const VideoPlayerScreen = ({route, navigation}) => {
           'An error occured during fetching data. Please try again in a few minutes.',
         );
       }
-    }
+    };
 
     userInfo();
   }, [saved]);
 
   useEffect(() => {
     getSavedVideos();
-    console.log("working");
-  }, [route.params.id, saved]);
+    // console.log('working')
+    let time = setTimeout(() => {
+      setRender(true);
+    }, 1000);
+
+    return () => {
+      clearTimeout(time);
+    };
+  }, [route.params.id, saved, render]);
 
   useEffect(() => {
     getCurrentVideo(route.params.id, access_token);
@@ -159,6 +174,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
   }, [route.params.id]);
 
   const postLike = async () => {
+    // console.log('working on creating')
     const response = await fetch(`${BASE_URL}/api/category/v1/like/videos/`, {
       method: 'POST',
       headers: {
@@ -171,10 +187,11 @@ const VideoPlayerScreen = ({route, navigation}) => {
       }),
     });
     const res = await response.json();
-    if (response.status === 200) {
+    if (response.status === 201) {
       setLiked(prev => prev + 1);
-    }
-    if (!response.ok) {
+      // console.log(res);
+    } else {
+      // console.log(res);
       alert(
         'Sorry, Could not perform the action. Please try again in a few minutes.',
       );
@@ -216,19 +233,21 @@ const VideoPlayerScreen = ({route, navigation}) => {
 
   const handleLike = () => {
     if (!currentVideo?.videolikes) {
+      // console.log('created');
       postLike();
     } else {
       const userExist = currentVideo?.videolikes?.likeusers?.find(
         userId => userId === user?.id,
       );
       if (!userExist) {
+        // console.log('updated');
         currentVideo?.videolikes?.likeusers.push(user?.id);
         updateLike(
           currentVideo?.videolikes?.likeusers,
           currentVideo?.videolikes?.id,
         );
       } else {
-        // console.log("delete")
+        // console.log('delete');
         const newLikeUsers = currentVideo?.videolikes?.likeusers?.filter(
           userId => userId !== user?.id,
         );
@@ -319,63 +338,69 @@ const VideoPlayerScreen = ({route, navigation}) => {
         toggleResizeModeOnFullscreen={true}
         // navigator={navigator}
       /> */}
-      <YoutubePlayer height={230} videoId={currentVideo?.video_oid} play />
-      <View style={styles.buttonContainer}>
-        <Button
-          containerStyle={styles.button}
-          buttonStyle={{
-            // backgroundColor: '#E61E05',
-            // height: 60,
-            width: 150,
-            borderRadius: 5,
-          }}
-          title={userLiked ? 'Unlike' : 'Like'}
-          onPress={handleLike}
-        />
-        <Button
-          containerStyle={styles.button}
-          buttonStyle={{
-            backgroundColor: '#840D01',
-            // height: 30,
-            width: 150,
-            borderRadius: 5,
-          }}
-          title={currentSaved ? 'Saved' : 'Save'}
-          onPress={handleFavourite}
-        />
-      </View>
-      <Text
-        style={{
-          marginLeft: 20,
-          marginTop: 10,
-          marginBottom: 40,
-          fontSize: 16,
-          width: '90%',
-          overflow: 'hidden',
-          color: 'white',
-        }}>
-        {currentVideo?.title}
-      </Text>
-      {referVideos?.length > 0 ? (
-        <FlatList
-          data={referVideos}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          ListFooterComponent={<View style={{height: 350}} />}
-        />
+      {currentLoader ? (
+        <Text style={{color: 'white', marginTop: 20, textAlign: 'center'}}>Loading...</Text>
       ) : (
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <>
+          <YoutubePlayer height={230} videoId={currentVideo?.video_oid} play />
+          <View style={styles.buttonContainer}>
+            <Button
+              containerStyle={styles.button}
+              buttonStyle={{
+                // backgroundColor: '#E61E05',
+                // height: 60,
+                width: 150,
+                borderRadius: 5,
+              }}
+              title={userLiked ? 'Unlike' : 'Like'}
+              onPress={handleLike}
+            />
+            <Button
+              containerStyle={styles.button}
+              buttonStyle={{
+                backgroundColor: '#840D01',
+                // height: 30,
+                width: 150,
+                borderRadius: 5,
+              }}
+              title={currentSaved ? 'Saved' : 'Save'}
+              onPress={handleFavourite}
+            />
+          </View>
           <Text
             style={{
-              textAlign: 'center',
+              marginLeft: 20,
+              marginTop: 10,
+              marginBottom: 40,
+              fontSize: 16,
+              width: '90%',
+              overflow: 'hidden',
               color: 'white',
-              width: 250,
-              margin: 'auto',
-              marginTop: 70,
             }}>
-            No other videos available on this category now
+            {currentVideo?.title}
           </Text>
-        </View>
+          {referVideos?.length > 0 ? (
+            <FlatList
+              data={referVideos}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              ListFooterComponent={<View style={{height: 350}} />}
+            />
+          ) : (
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: 'white',
+                  width: 250,
+                  margin: 'auto',
+                  marginTop: 70,
+                }}>
+                No other videos available on this category now
+              </Text>
+            </View>
+          )}
+        </>
       )}
     </View>
   );

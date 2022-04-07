@@ -21,6 +21,7 @@ import Profile from './screens/Profile';
 import {Icon} from 'react-native-elements';
 import UpdateProfile from './screens/UpdateProfile';
 import SavedVideos from './screens/SavedVideos';
+import RecentVideos from './screens/RecentVideos';
 
 const CategoryTabs = () => {
   const Tab = createBottomTabNavigator();
@@ -40,6 +41,10 @@ const CategoryTabs = () => {
             imageSource = 'save';
             type = 'entypo';
           }
+          if (route.name == 'Recent') {
+            imageSource = 'video';
+            type = 'feather';
+          }
           if (route.name == 'Profile') {
             imageSource = 'user';
             type = 'evilicon';
@@ -58,6 +63,7 @@ const CategoryTabs = () => {
         // screenOptions={screenOptions}
       />
       {/* <Tab.Screen name="Videos" component={VideoScreen} /> */}
+      <Tab.Screen name="Recent" component={RecentVideos} />
       <Tab.Screen name="Saved" component={SavedVideos} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
