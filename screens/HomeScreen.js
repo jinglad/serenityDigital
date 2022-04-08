@@ -50,11 +50,7 @@ const HomeScreen = ({navigation}) => {
           style={styles.logo}
           source={require('../assets/images/logo.png')}
         />
-        <Text style={styles.heading}>Welcome To Our App</Text>
-        <Text style={styles.subHeading}>
-          Lorem Ipsum is simply dummy text Lorem Ipsum has been the industry's
-          standard
-        </Text>
+        <Text style={styles.heading}>Welcome To Serenity Digital</Text>
         {!access_token ? (
           <>
             <View style={styles.buttonContainer}>

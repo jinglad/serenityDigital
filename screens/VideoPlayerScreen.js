@@ -52,6 +52,11 @@ const VideoPlayerScreen = ({route, navigation}) => {
   const [currentSaved, setCurrentSaved] = useState(null);
   const [render, setRender] = useState(false);
   const [currentLoader, setCurrentLoader] = useState(false);
+  const [isRecentNull, setIsRecentNull] = useState(true);
+  const [recentVideos, setRecentVideos] = useState(null);
+  const [currentRecent, setCurrentRecent] = useState(null);
+  const [recent, setRecent] = useState(1);
+  const [recentLoad, setRecentLoad] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -120,7 +125,105 @@ const VideoPlayerScreen = ({route, navigation}) => {
     }
   };
 
-  // console.log(currentSaved);
+  const getRecentVideos = async () => {
+    // setRecentLoad(true);
+    const response = await fetch(`${BASE_URL}/api/category/v1/recent/videos/`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Token ' + access_token,
+      },
+    });
+    const res = await response.json();
+    if (response.status === 200) {
+      // console.log(res);
+      if (user?.recentshownvideos !== null) {
+        // console.log(currentVideo);
+        // setIsRecentNull(false);
+        const currentUserRecentVideos = res?.find(
+          video => video?.user === user?.id,
+        );
+        if (currentUserRecentVideos && currentVideo) {
+          const videoExist = currentUserRecentVideos?.video?.find(
+            vid => vid === currentVideo?.id,
+          );
+          // console.log(videoExist);
+          if (!videoExist) {
+            currentUserRecentVideos?.video?.push(currentVideo?.id);
+            updateRecentVideos(
+              currentUserRecentVideos?.id,
+              recentVideos?.video,
+            );
+          }
+        }
+      } else if(user?.recentshownvideos === null) {
+        createRecent();
+      }
+      // handleRecentVideos(isNull, currentUserRecentVideos);
+      const currentUserRecentVideos = res?.find(
+        video => video?.user === user?.id,
+      );
+      // console.log(currentUserSavedVideos);
+      setRecentVideos(currentUserRecentVideos);
+      const newCurentRecent = currentUserRecentVideos?.video?.find(
+        vid => vid === currentVideo?.id,
+      );
+      setCurrentRecent(newCurentRecent);
+      // setRecentLoad(false);
+    } else {
+      alert(
+        'An error occured fetching savedvideos. Please try again in a few minutes.',
+      );
+    }
+  };
+
+  // handle Recent Videos
+
+  const createRecent = async () => {
+    const response = await fetch(`${BASE_URL}/api/category/v1/recent/videos/`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Token ' + access_token,
+      },
+      body: JSON.stringify({
+        user: user?.id,
+        video: [currentVideo?.id],
+      }),
+    });
+    const res = await response.json();
+    if (response.ok) {
+      setRecent(prev => prev + 1);
+    } 
+  };
+
+  // console.log(currentVideo?.id);
+
+  const updateRecentVideos = async (id, video) => {
+    // console.log('updated', video);
+    const response = await fetch(
+      `${BASE_URL}/api/category/v1/recent/videos/${id}/`,
+      {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Token ' + access_token,
+        },
+        body: JSON.stringify({
+          user: user?.id,
+          video,
+        }),
+      },
+    );
+    const res = await response.json();
+    // console.log(res);
+    if (response.ok) {
+      // console.log('updated ', res);
+      setRecent(prev => prev + 1);
+    } 
+  };
+
+  
 
   useEffect(() => {
     const userInfo = async () => {
@@ -133,10 +236,10 @@ const VideoPlayerScreen = ({route, navigation}) => {
             Authorization: `Token ${access_token}`,
           },
         },
-      );
+      ); 
       const res = await response.json();
       if (response.status === 200) {
-        // console.log(res);
+        // console.log("user ", res);
         dispatch(setUser(res));
       } else {
         alert(
@@ -146,7 +249,11 @@ const VideoPlayerScreen = ({route, navigation}) => {
     };
 
     userInfo();
-  }, [saved]);
+  }, [saved, recent]);
+
+  useEffect(() => {
+    getCurrentVideo(route.params.id, access_token);
+  }, [route.params.id, liked]);
 
   useEffect(() => {
     getSavedVideos();
@@ -160,9 +267,11 @@ const VideoPlayerScreen = ({route, navigation}) => {
     };
   }, [route.params.id, saved, render]);
 
+  
+
   useEffect(() => {
-    getCurrentVideo(route.params.id, access_token);
-  }, [route.params.id, liked]);
+    getRecentVideos();
+  }, [route.params.id, recent, currentVideo]);
 
   useEffect(() => {
     const rest = videos.filter(video => video.id !== route.params.id);
@@ -187,7 +296,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
       }),
     });
     const res = await response.json();
-    if (response.status === 201) {
+    if (response.ok) {
       setLiked(prev => prev + 1);
       // console.log(res);
     } else {
@@ -218,7 +327,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
 
     const res = await response.json();
 
-    if (response.status === 200) {
+    if (response.ok) {
       setLiked(prev => prev + 1);
     }
 
@@ -257,6 +366,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
   };
 
   // handle favourite
+  // console.log(savedVideos);
+// console.log(user)
 
   const createSavedVideos = async () => {
     const response = await fetch(`${BASE_URL}/api/category/v1/save/videos/`, {
@@ -271,7 +382,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
       }),
     });
     const res = await response.json();
-    if (response.status === 200) {
+    console.log(res);
+    if (response.ok) {
       // console.log("created ", res);
       setSaved(prev => prev + 1);
     } else {
@@ -297,7 +409,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
       },
     );
     const res = await response.json();
-    if (response.status === 200) {
+    if (response.ok) {
       // console.log("updated ", res);
       setSaved(prev => prev + 1);
     } else {
@@ -308,10 +420,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
     }
   };
 
-  // console.log(user?.savevideos);
-
   const handleFavourite = () => {
-    if (isSavedNull) {
+    if (!user?.savevideos) {
       createSavedVideos();
     } else {
       const videoExist = savedVideos?.video?.find(
@@ -339,7 +449,9 @@ const VideoPlayerScreen = ({route, navigation}) => {
         // navigator={navigator}
       /> */}
       {currentLoader ? (
-        <Text style={{color: 'white', marginTop: 20, textAlign: 'center'}}>Loading...</Text>
+        <Text style={{color: 'white', marginTop: 20, textAlign: 'center'}}>
+          Loading...
+        </Text>
       ) : (
         <>
           <YoutubePlayer height={230} videoId={currentVideo?.video_oid} play />

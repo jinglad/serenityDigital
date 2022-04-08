@@ -12,6 +12,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import {BASE_URL} from '@env';
 import {useSelector} from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
 
 const Item = ({id, navigation, thumbnail, title, oid}) => {
   // console.log(title);
@@ -37,6 +38,7 @@ const RecentVideos = ({navigation, route}) => {
   const {videos, access_token, user} = useSelector(state => state.videos);
   const [recentVideos, setRecentVideos] = useState(null);
   const [loading, setLoading] = useState(false);
+  const isFocused = useIsFocused();
 
   const getRecentVideos = async () => {
     const response = await fetch(`${BASE_URL}/api/category/v1/video/?recent`, {
@@ -61,7 +63,7 @@ const RecentVideos = ({navigation, route}) => {
   useEffect(() => {
     setLoading(true);
     getRecentVideos();
-  }, [route]);
+  }, [isFocused]);
 
   const renderItem = ({item}) => (
     <Item

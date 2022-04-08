@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setCategory, setCategoryTitle} from '../redux/actions';
 import {getCategory} from '../data/getCategory';
 import {BASE_URL} from '@env';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 
 const Item = ({category, img, navigation, handleSetCategory}) => {
   const {user, access_token, categories} = useSelector(state => state.videos);
@@ -45,7 +45,7 @@ const Item = ({category, img, navigation, handleSetCategory}) => {
 
     return () => {
       setCount(null);
-    }
+    };
   }, []);
 
   return (
@@ -60,7 +60,7 @@ const Item = ({category, img, navigation, handleSetCategory}) => {
         <View style={{marginTop: 10}}>
           <Text style={styles.title}>{category}</Text>
           <Text style={{fontSize: 14, marginLeft: 10, color: 'white'}}>
-            Videos - {count?.this_category_found_videos}
+            Videos - {count?.this_category_found_videos | 0}
           </Text>
         </View>
       </View>
