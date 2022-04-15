@@ -22,6 +22,8 @@ import {Icon} from 'react-native-elements';
 import UpdateProfile from './screens/UpdateProfile';
 import SavedVideos from './screens/SavedVideos';
 import RecentVideos from './screens/RecentVideos';
+import {StripeProvider} from '@stripe/stripe-react-native';
+import PaymentScreen from './screens/PaymentScreen';
 
 const CategoryTabs = () => {
   const Tab = createBottomTabNavigator();
@@ -81,29 +83,38 @@ const App = () => {
 
   return (
     <SafeAreaProvider>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <VideosContext.Provider value={[videoList, setVideoList]}>
-            <NavigationContainer>
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                }}>
-                <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="Registration" component={Registration} />
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="CategoryTab" component={CategoryTabs} />
-                <Stack.Screen name="Videos" component={VideoScreen} />
-                <Stack.Screen
-                  name="VideoPlayer"
-                  component={VideoPlayerScreen}
-                />
-                <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
-              </Stack.Navigator>
-            </NavigationContainer>
-          </VideosContext.Provider>
-        </PersistGate>
-      </Provider>
+      <StripeProvider publishableKey="pk_test_51KeXrmExsbXRovz7Ve5VBK7RLrMst5UZYDmL5izxHiaczqqUrGhGmhz8wwijvUxjJR8SOa6e9LIxIPSai3QhaWh100YSdfWuFb">
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <VideosContext.Provider value={[videoList, setVideoList]}>
+              <NavigationContainer>
+                <Stack.Navigator
+                  screenOptions={{
+                    headerShown: false,
+                  }}>
+                  <Stack.Screen name="Home" component={HomeScreen} />
+                  <Stack.Screen name="Registration" component={Registration} />
+                  <Stack.Screen name="Login" component={Login} />
+                  <Stack.Screen name="CategoryTab" component={CategoryTabs} />
+                  <Stack.Screen name="Videos" component={VideoScreen} />
+                  <Stack.Screen
+                    name="VideoPlayer"
+                    component={VideoPlayerScreen}
+                  />
+                  <Stack.Screen
+                    name="UpdateProfile"
+                    component={UpdateProfile}
+                  />
+                  <Stack.Screen
+                    name="Payment"
+                    component={PaymentScreen}
+                  />
+                </Stack.Navigator>
+              </NavigationContainer>
+            </VideosContext.Provider>
+          </PersistGate>
+        </Provider>
+      </StripeProvider>
     </SafeAreaProvider>
   );
 };

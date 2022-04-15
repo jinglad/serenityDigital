@@ -22,6 +22,8 @@ target 'serenityDigital' do
 
   pod 'react-native-orientation-locker', :path => '../node_modules/react-native-orientation-locker'
 
+  # pod 'stripe-react-native', :path => '../node_modules/@stripe/stripe-react-native'
+
   target 'serenityDigitalTests' do
     inherit! :complete
     # Pods for testing

@@ -41,6 +41,7 @@ const VideoScreen = ({navigation}) => {
   const [currentCategory, setCurrentCategory] = useState(null);
 
   // console.log(categoryTitle);
+  // console.log(access_token);
 
   useEffect(() => {
     setLoading(true);

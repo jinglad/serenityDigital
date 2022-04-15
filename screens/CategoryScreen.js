@@ -8,6 +8,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Webview,
+  Linking,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -15,8 +17,9 @@ import {setCategory, setCategoryTitle} from '../redux/actions';
 import {getCategory} from '../data/getCategory';
 import {BASE_URL} from '@env';
 import {useIsFocused} from '@react-navigation/native';
+import PaymentMsgModal from '../components/PaymentMessage';
 
-const Item = ({category, img, navigation, handleSetCategory}) => {
+const Item = ({category, img, navigation, handleSetCategory, isPro, setOpen}) => {
   const {user, access_token, categories} = useSelector(state => state.videos);
   const [count, setCount] = useState(null);
 
@@ -34,7 +37,6 @@ const Item = ({category, img, navigation, handleSetCategory}) => {
       );
       const res = await response.json();
       if (response.status === 200) {
-        // console.log(res);
         setCount(res);
       }
       if (!response.ok) {
@@ -53,7 +55,8 @@ const Item = ({category, img, navigation, handleSetCategory}) => {
       style={{paddingLeft: 10, paddingRight: 10, flex: 1}}
       onPress={() => {
         handleSetCategory(category);
-        navigation.navigate('Videos');
+        if(isPro) navigation.navigate('Videos');
+        else if(isPro === false) setOpen(true);
       }}>
       <View style={styles.item}>
         <Image style={styles.category__image} source={{uri: img}} />
@@ -72,6 +75,12 @@ const CategoryScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {user, access_token, categories} = useSelector(state => state.videos);
   const isFocused = useIsFocused();
+  const [isPro, setIsPro] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const handleSetCategory = category => {
     dispatch(setCategoryTitle(category));
@@ -81,12 +90,37 @@ const CategoryScreen = ({navigation, route}) => {
     getCategory(dispatch, access_token);
   }, [isFocused]);
 
+  useEffect(() => {
+    const checkPro = async () => {
+      const response = await fetch(`${BASE_URL}/api/accounts/v1/checkpro/`, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Token ${access_token}`,
+        },
+      });
+
+      const res = await response.json();
+      // console.log("ispro ", res);
+      if (!res) {
+        // setOpen(true);
+        setIsPro(false);
+      } else if(res) {
+        setIsPro(true);
+      }
+    };
+
+    checkPro();
+  }, [isFocused]);
+
   const renderItem = ({item}) => (
     <Item
       navigation={navigation}
       handleSetCategory={handleSetCategory}
       category={item.name}
       img={item?.category_thumbnail}
+      isPro={isPro}
+      setOpen={setOpen}
     />
   );
 
@@ -108,6 +142,7 @@ const CategoryScreen = ({navigation, route}) => {
           ListFooterComponent={<View style={{height: 120}} />}
         />
       )}
+      <PaymentMsgModal open={open} onClose={onClose} navigation={navigation} />
     </SafeAreaView>
   );
 };

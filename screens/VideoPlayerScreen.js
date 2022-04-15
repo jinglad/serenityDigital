@@ -73,29 +73,29 @@ const VideoPlayerScreen = ({route, navigation}) => {
     />
   );
 
-  const getCurrentVideo = async (id, access_token) => {
-    setCurrentLoader(true);
-    const response = await fetch(`${BASE_URL}/api/category/v1/video/${id}`, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json',
-        Authorization: 'Token ' + access_token,
-      },
-    });
-    const res = await response.json();
-    setCurrentLoader(false);
-    if (response.status === 200) {
-      setCurrentVideo(res);
-      // console.log(res);
-      setUserLiked(
-        res?.videolikes?.likeusers?.find(userId => userId === user?.id),
-      );
-    } else {
-      alert(
-        'An error occured fetching Video. Please try again in a few minutes.',
-      );
-    }
-  };
+  // const getCurrentVideo = async (id, access_token) => {
+  //   setCurrentLoader(true);
+  //   const response = await fetch(`${BASE_URL}/api/category/v1/video/${id}`, {
+  //     method: 'GET',
+  //     headers: {
+  //       'content-type': 'application/json',
+  //       Authorization: 'Token ' + access_token,
+  //     },
+  //   });
+  //   const res = await response.json();
+  //   setCurrentLoader(false);
+  //   if (response.status === 200) {
+  //     setCurrentVideo(res);
+  //     // console.log(res);
+  //     setUserLiked(
+  //       res?.videolikes?.likeusers?.find(userId => userId === user?.id),
+  //     );
+  //   } else {
+  //     alert(
+  //       'An error occured fetching Video. Please try again in a few minutes.',
+  //     );
+  //   }
+  // };
 
   const getSavedVideos = async () => {
     const response = await fetch(`${BASE_URL}/api/category/v1/save/videos/`, {
@@ -156,7 +156,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
             );
           }
         }
-      } else if(user?.recentshownvideos === null) {
+      } else if (user?.recentshownvideos === null) {
         createRecent();
       }
       // handleRecentVideos(isNull, currentUserRecentVideos);
@@ -194,7 +194,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
     const res = await response.json();
     if (response.ok) {
       setRecent(prev => prev + 1);
-    } 
+    }
   };
 
   // console.log(currentVideo?.id);
@@ -220,10 +220,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
     if (response.ok) {
       // console.log('updated ', res);
       setRecent(prev => prev + 1);
-    } 
+    }
   };
-
-  
 
   useEffect(() => {
     const userInfo = async () => {
@@ -236,7 +234,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
             Authorization: `Token ${access_token}`,
           },
         },
-      ); 
+      );
       const res = await response.json();
       if (response.status === 200) {
         // console.log("user ", res);
@@ -252,8 +250,12 @@ const VideoPlayerScreen = ({route, navigation}) => {
   }, [saved, recent]);
 
   useEffect(() => {
-    getCurrentVideo(route.params.id, access_token);
-  }, [route.params.id, liked]);
+    setCurrentVideo(videos?.find(vid => vid.id === route.params.id));
+    const current = videos?.find(vid => vid.id === route.params.id);
+    setUserLiked(
+      current?.videolikes?.likeusers?.find(userId => userId === user?.id),
+    );
+  }, [route.params.id]);
 
   useEffect(() => {
     getSavedVideos();
@@ -266,8 +268,6 @@ const VideoPlayerScreen = ({route, navigation}) => {
       clearTimeout(time);
     };
   }, [route.params.id, saved, render]);
-
-  
 
   useEffect(() => {
     getRecentVideos();
@@ -298,7 +298,12 @@ const VideoPlayerScreen = ({route, navigation}) => {
     const res = await response.json();
     if (response.ok) {
       setLiked(prev => prev + 1);
-      // console.log(res);
+      // console.log('post like ', res);
+      let updatedVideo = {...currentVideo};
+      // console.log(updatedVideo.videolikes);
+      updatedVideo.videolikes = res;
+      setCurrentVideo(updatedVideo);
+      setUserLiked(user?.id);
     } else {
       // console.log(res);
       alert(
@@ -326,9 +331,14 @@ const VideoPlayerScreen = ({route, navigation}) => {
     );
 
     const res = await response.json();
-
+    // console.log('updated like ', res);
+    // console.log('user', user)
     if (response.ok) {
       setLiked(prev => prev + 1);
+      let updatedVideo = {...currentVideo};
+      // console.log(updatedVideo.videolikes);
+      updatedVideo.videolikes = res;
+      setCurrentVideo(updatedVideo);
     }
 
     if (!response.ok) {
@@ -337,6 +347,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
       );
     }
   };
+
+  // console.log(currentVideo);
 
   // console.log(savedVideos);
 
@@ -350,7 +362,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
       );
       if (!userExist) {
         // console.log('updated');
-        currentVideo?.videolikes?.likeusers.push(user?.id);
+        setUserLiked(currentVideo?.videolikes?.likeusers.push(user?.id));
         updateLike(
           currentVideo?.videolikes?.likeusers,
           currentVideo?.videolikes?.id,
@@ -360,14 +372,11 @@ const VideoPlayerScreen = ({route, navigation}) => {
         const newLikeUsers = currentVideo?.videolikes?.likeusers?.filter(
           userId => userId !== user?.id,
         );
+        setUserLiked(null);
         updateLike(newLikeUsers, currentVideo?.videolikes?.id);
       }
     }
   };
-
-  // handle favourite
-  // console.log(savedVideos);
-// console.log(user)
 
   const createSavedVideos = async () => {
     const response = await fetch(`${BASE_URL}/api/category/v1/save/videos/`, {
@@ -382,7 +391,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
       }),
     });
     const res = await response.json();
-    console.log(res);
+    // console.log(res);
     if (response.ok) {
       // console.log("created ", res);
       setSaved(prev => prev + 1);
@@ -440,6 +449,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
     }
   };
 
+  // console.log("currentVideo", currentVideo);
+
   return (
     <View style={styles.container}>
       {/* <VideoPlayer
@@ -448,7 +459,7 @@ const VideoPlayerScreen = ({route, navigation}) => {
         toggleResizeModeOnFullscreen={true}
         // navigator={navigator}
       /> */}
-      {currentLoader ? (
+      {!currentVideo ? (
         <Text style={{color: 'white', marginTop: 20, textAlign: 'center'}}>
           Loading...
         </Text>
