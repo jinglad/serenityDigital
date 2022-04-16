@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {Input} from 'react-native-elements/dist/input/Input';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
@@ -9,20 +9,6 @@ import {BASE_URL} from '@env';
 const Profile = ({navigation}) => {
   const {access_token, user} = useSelector(state => state.videos);
 
-  // console.log(user);
-
-  // useEffect(() => {
-  //   fetch(`${BASE_URL}/api/accounts/v1/userlist/${user?.id}`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'content-type': 'application/json',
-  //       Authorization: `Token ${access_token}`,
-  //     },
-  //   })
-  //     .then(response => response.json())
-  //     .then(data => console.log(data))
-  //     .catch(error => alert(error.message));
-  // }, []);
 
   return (
     <View style={styles.profile}>
@@ -177,9 +163,10 @@ const Profile = ({navigation}) => {
         <Button
           title="Edit Profile"
           containerStyle={{
-            height: 60,
-            // marginTop: 20,
             width: '80%',
+          }}
+          buttonStyle={{
+            height: 40,
           }}
           onPress={() => navigation.navigate('UpdateProfile')}
         />
@@ -194,12 +181,5 @@ const styles = StyleSheet.create({
   profile: {
     backgroundColor: '#232c38',
     height: '100%',
-    // marginTop: 20,
-    // flex: 1,
-    // alignItems: 'center',
   },
-  // text: {
-  //   color: 'white',
-  //   textAlign: 'center',
-  // },
 });

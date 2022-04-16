@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   Image,
   Platform,
@@ -11,8 +12,9 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {BASE_URL} from '@env';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
+import { setVideos } from '../redux/actions';
 
 const Item = ({id, navigation, thumbnail, title, oid}) => {
   // console.log(title);
@@ -39,6 +41,7 @@ const RecentVideos = ({navigation, route}) => {
   const [recentVideos, setRecentVideos] = useState(null);
   const [loading, setLoading] = useState(false);
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
   const getRecentVideos = async () => {
     const response = await fetch(`${BASE_URL}/api/category/v1/video/?recent`, {
@@ -51,10 +54,11 @@ const RecentVideos = ({navigation, route}) => {
     const res = await response.json();
     if (response.status === 200) {
       // console.log(res);
+      dispatch(setVideos(res));
       setRecentVideos(res);
       setLoading(false);
     } else {
-      alert(
+      Alert.alert(
         'An error occured fetching recent videos. Please try again in a few minutes.',
       );
     }

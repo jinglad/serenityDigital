@@ -11,6 +11,7 @@ export default function PaymentsUICompleteScreen({navigation}) {
   const {access_token} = useSelector(state => state.videos);
   const {confirmPayment, loading} = useConfirmPayment();
   const [email, setEmail] = useState('');
+  const [loader, setLoader] = useState(false);
 
   const fetchPaymentSheetParams = async () => {
     const response = await fetch(
@@ -30,6 +31,7 @@ export default function PaymentsUICompleteScreen({navigation}) {
   };
 
   const openPaymentSheet = async () => {
+    setLoader(true);
     const {client_secret} = await fetchPaymentSheetParams();
     const {error, paymentIntent} = await confirmPayment(client_secret, {
       type: 'Card',
@@ -38,11 +40,12 @@ export default function PaymentsUICompleteScreen({navigation}) {
 
     if (error) {
       Alert.alert(error.message);
+      setLoader(false);
     } else if (paymentIntent) {
       Alert.alert('Success', `Payment successful`);
-      console.log(paymentIntent);
       if(paymentIntent.status == 'Succeeded') {
         setPaymentSuccess(access_token, navigation);
+        setLoader(false);
       }
     }
   };
@@ -87,7 +90,7 @@ export default function PaymentsUICompleteScreen({navigation}) {
           />
           <Button
             variant="primary"
-            disabled={loading}
+            disabled={loader}
             title="Checkout"
             onPress={openPaymentSheet}
           />

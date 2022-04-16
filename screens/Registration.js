@@ -1,4 +1,5 @@
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -11,16 +12,13 @@ import React, {useState} from 'react';
 import {Button, Input, Divider} from 'react-native-elements';
 import GoogleLogin from '../components/GoogleLogin';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-// import { AntDesign } from "@expo/vector-icons";
-// import { Entypo } from "@expo/vector-icons";
-// import { useDispatch, useSelector } from "react-redux";
+
 import {setUser} from '../redux/actions';
-// import { StatusBar } from 'expo-status-bar'
-// import Icon from 'react-native-vector-icons/Entypo';
+
 import {BASE_URL} from '@env';
 import CustomModal from '../components/Modal';
 import {useSelector} from 'react-redux';
-// import GoogleLogin from "../components/GoogleLogin";
+
 
 const Registration = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -35,34 +33,12 @@ const Registration = ({navigation}) => {
   // const dispatch = useDispatch();
   const {user} = useSelector(state => state.videos);
 
-  // const signUpCall = async () => {
-  //   const response = await fetch(`${BASE_URL}/api/accounts/v1/register/`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       username,
-  //       email,
-  //       password,
-  //       password2: password,
-  //     }),
-  //   })
-  //   const res = await r
-
-  //   if(response.status === 200) console.log()
-  // }
-
   const signUp = () => {
-    // var csrfCookie = getCookie('csrftoken');
-    // const csrfToken = Cookies.get('csrftoken')
     setLoader(true);
     fetch(`${BASE_URL}/api/accounts/v1/register/`, {
       method: 'POST',
       headers: {
-        // Accept: 'application/json',
         'Content-Type': 'application/json',
-        // Referer: `${BASE_URL}/api/accounts/v1/register/`,
       },
       body: JSON.stringify({
         username,
@@ -73,15 +49,14 @@ const Registration = ({navigation}) => {
     })
       .then(res => res.json())
       .then(data => {
-        // console.log(data);
         setLoader(false);
         if (data.email) {
           setOpen(true);
         } else {
-          alert('Registration not done successfully! please try again');
+          Alert.alert('Failed','Registration not done successfully! please try again');
         }
       })
-      .catch(error => alert(error.message));
+      .catch(error => console.log(error.message));
   };
 
   return (

@@ -1,4 +1,4 @@
-import {Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {Alert, Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {KeyboardAvoidingView} from 'react-native';
 import {Button, Divider, Input} from 'react-native-elements';
@@ -47,8 +47,8 @@ const Login = ({navigation}) => {
           dispatch(setUser(data));
           navigation.navigate('CategoryTab');
         } else {
-          alert(
-            'Could not authenticate user! please try again with correct credential',
+          Alert.alert(
+            'Warning','Could not authenticate user! please try again with correct credential',
           );
         }
       })
