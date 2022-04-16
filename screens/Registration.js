@@ -43,6 +43,7 @@ const Registration = ({navigation}) => {
       body: JSON.stringify({
         username,
         email,
+        is_superuser: false,
         password,
         password2: password,
       }),
@@ -107,9 +108,6 @@ const Registration = ({navigation}) => {
             }}
             onPress={signUp}
           />
-          {/* <Divider width={2} />
-          <GoogleLogin setUser={setUser} setLoaded={setLoaded} />
-          <Button title="sign out" onPress={signOut} /> */}
         </View>
       </View>
       <CustomModal

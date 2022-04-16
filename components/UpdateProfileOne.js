@@ -24,7 +24,7 @@ const UpdateProfileOne = ({navigation}) => {
   const [phone, setPhone] = useState(user?.phone);
   const [country, setCountry] = useState(user?.country);
   const [content, setContent] = useState(user?.content_choice);
-  const [age, setAge] = useState(user?.age);
+  const [age, setAge] = useState(user?.age || "");
   const [checked, setChecked] = useState(user?.gender);
   const [language, setLanguage] = useState(user?.language);
 
