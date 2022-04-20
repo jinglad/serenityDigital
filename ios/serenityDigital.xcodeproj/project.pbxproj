@@ -11,23 +11,11 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		3059F7E828104A6E009B7922 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3059F7E728104A6E009B7922 /* GoogleService-Info.plist */; };
+		3059F7EA28107E74009B7922 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 3059F7E928107E74009B7922 /* fonts */; };
+		47452454ABC0A6BFD675C20F /* libPods-serenityDigital-serenityDigitalTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87D5A8E099FCAE97760629D3 /* libPods-serenityDigital-serenityDigitalTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		29FF60F4C1F3470B8D96EFC4 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F0A49D489214701A6FBD7F3 /* AntDesign.ttf */; };
-		C195CC31875E406EAEE28470 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 670FF01D0E4B4B0B8B078D96 /* Entypo.ttf */; };
-		0A04341E1DE044E49C40D206 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5267C9FDD84C4C50A743D160 /* EvilIcons.ttf */; };
-		93A930ED8C374088A3B375A9 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60B5A6C1BB4D4CE69DF17EE0 /* Feather.ttf */; };
-		24931EAC1B5F4C6BB8644873 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7DF372A67CBB4A35A7F376E2 /* FontAwesome.ttf */; };
-		08822F2FE43E49E1B25E14A8 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0E49FDB0CA644D59D9330B4 /* FontAwesome5_Brands.ttf */; };
-		DCB7F9A66FD7499CB072B221 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0781D902CFFB48E995A7D1EC /* FontAwesome5_Regular.ttf */; };
-		0D31E8AECC334268A43A243E /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18CD693F42144E19A860964B /* FontAwesome5_Solid.ttf */; };
-		E972DD8BD40748728045E2B7 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 869524AAED304CEE89CD62DE /* Fontisto.ttf */; };
-		78256B2F48154C41BE152F95 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 054639E7FDBD488CA291E35D /* Foundation.ttf */; };
-		ED790CC6E9A742338E0436AD /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 574549784F6F48D3B99A49CB /* Ionicons.ttf */; };
-		A1C1B541082C45C7A7653864 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E2FBD4ACC2849939C4684C3 /* MaterialCommunityIcons.ttf */; };
-		3F9CB0EB37B64B32BDEE9C5B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE1C45E295A49E699A8060C /* MaterialIcons.ttf */; };
-		5CE6E29FC72445908E7FACB5 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB597F4E56874B99B3149E92 /* Octicons.ttf */; };
-		3DC8DFA3005C46EDAC0AE1C0 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89D896A0AE4C4B38B571C6FB /* SimpleLineIcons.ttf */; };
-		10AF67A4B14843FDB60E5747 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 707029A62610478F86BE6273 /* Zocial.ttf */; };
+		A08742BC960F22C1392764A9 /* libPods-serenityDigital.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5B8EFC66BC60451AAF742F9 /* libPods-serenityDigital.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,24 +38,16 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = serenityDigital/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = serenityDigital/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = serenityDigital/main.m; sourceTree = "<group>"; };
+		3059F7E728104A6E009B7922 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3059F7E928107E74009B7922 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		5AC8CC7403AF7DADF6C5FE48 /* Pods-serenityDigital-serenityDigitalTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenityDigital-serenityDigitalTests.debug.xcconfig"; path = "Target Support Files/Pods-serenityDigital-serenityDigitalTests/Pods-serenityDigital-serenityDigitalTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = serenityDigital/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		87D5A8E099FCAE97760629D3 /* libPods-serenityDigital-serenityDigitalTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-serenityDigital-serenityDigitalTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		885D4D686085AF6A2BF4112B /* Pods-serenityDigital.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenityDigital.release.xcconfig"; path = "Target Support Files/Pods-serenityDigital/Pods-serenityDigital.release.xcconfig"; sourceTree = "<group>"; };
+		8C3231E6D8806891794CDFAD /* Pods-serenityDigital.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenityDigital.debug.xcconfig"; path = "Target Support Files/Pods-serenityDigital/Pods-serenityDigital.debug.xcconfig"; sourceTree = "<group>"; };
+		8C8D3A4CFEBD5144B32C7DE5 /* Pods-serenityDigital-serenityDigitalTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenityDigital-serenityDigitalTests.release.xcconfig"; path = "Target Support Files/Pods-serenityDigital-serenityDigitalTests/Pods-serenityDigital-serenityDigitalTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		6F0A49D489214701A6FBD7F3 /* AntDesign.ttf */ = {isa = PBXFileReference; name = "AntDesign.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		670FF01D0E4B4B0B8B078D96 /* Entypo.ttf */ = {isa = PBXFileReference; name = "Entypo.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5267C9FDD84C4C50A743D160 /* EvilIcons.ttf */ = {isa = PBXFileReference; name = "EvilIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		60B5A6C1BB4D4CE69DF17EE0 /* Feather.ttf */ = {isa = PBXFileReference; name = "Feather.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7DF372A67CBB4A35A7F376E2 /* FontAwesome.ttf */ = {isa = PBXFileReference; name = "FontAwesome.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E0E49FDB0CA644D59D9330B4 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Brands.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		0781D902CFFB48E995A7D1EC /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Regular.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		18CD693F42144E19A860964B /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Solid.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		869524AAED304CEE89CD62DE /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		054639E7FDBD488CA291E35D /* Foundation.ttf */ = {isa = PBXFileReference; name = "Foundation.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		574549784F6F48D3B99A49CB /* Ionicons.ttf */ = {isa = PBXFileReference; name = "Ionicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7E2FBD4ACC2849939C4684C3 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; name = "MaterialCommunityIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3BE1C45E295A49E699A8060C /* MaterialIcons.ttf */ = {isa = PBXFileReference; name = "MaterialIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		BB597F4E56874B99B3149E92 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		89D896A0AE4C4B38B571C6FB /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		707029A62610478F86BE6273 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F5B8EFC66BC60451AAF742F9 /* libPods-serenityDigital.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-serenityDigital.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47452454ABC0A6BFD675C20F /* libPods-serenityDigital-serenityDigitalTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A08742BC960F22C1392764A9 /* libPods-serenityDigital.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +90,7 @@
 		13B07FAE1A68108700A75B9A /* serenityDigital */ = {
 			isa = PBXGroup;
 			children = (
+				3059F7E728104A6E009B7922 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -122,8 +105,17 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				F5B8EFC66BC60451AAF742F9 /* libPods-serenityDigital.a */,
+				87D5A8E099FCAE97760629D3 /* libPods-serenityDigital-serenityDigitalTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5BA0688351AE4E4BA1EB9E4D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -136,12 +128,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3059F7E928107E74009B7922 /* fonts */,
 				13B07FAE1A68108700A75B9A /* serenityDigital */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* serenityDigitalTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				5BA0688351AE4E4BA1EB9E4D /* Resources */,
+				BA8EDE8171E1FA3A4F836340 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -157,29 +151,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5BA0688351AE4E4BA1EB9E4D /* Resources */ = {
-			isa = "PBXGroup";
+		BA8EDE8171E1FA3A4F836340 /* Pods */ = {
+			isa = PBXGroup;
 			children = (
-				6F0A49D489214701A6FBD7F3 /* AntDesign.ttf */,
-				670FF01D0E4B4B0B8B078D96 /* Entypo.ttf */,
-				5267C9FDD84C4C50A743D160 /* EvilIcons.ttf */,
-				60B5A6C1BB4D4CE69DF17EE0 /* Feather.ttf */,
-				7DF372A67CBB4A35A7F376E2 /* FontAwesome.ttf */,
-				E0E49FDB0CA644D59D9330B4 /* FontAwesome5_Brands.ttf */,
-				0781D902CFFB48E995A7D1EC /* FontAwesome5_Regular.ttf */,
-				18CD693F42144E19A860964B /* FontAwesome5_Solid.ttf */,
-				869524AAED304CEE89CD62DE /* Fontisto.ttf */,
-				054639E7FDBD488CA291E35D /* Foundation.ttf */,
-				574549784F6F48D3B99A49CB /* Ionicons.ttf */,
-				7E2FBD4ACC2849939C4684C3 /* MaterialCommunityIcons.ttf */,
-				3BE1C45E295A49E699A8060C /* MaterialIcons.ttf */,
-				BB597F4E56874B99B3149E92 /* Octicons.ttf */,
-				89D896A0AE4C4B38B571C6FB /* SimpleLineIcons.ttf */,
-				707029A62610478F86BE6273 /* Zocial.ttf */,
+				8C3231E6D8806891794CDFAD /* Pods-serenityDigital.debug.xcconfig */,
+				885D4D686085AF6A2BF4112B /* Pods-serenityDigital.release.xcconfig */,
+				5AC8CC7403AF7DADF6C5FE48 /* Pods-serenityDigital-serenityDigitalTests.debug.xcconfig */,
+				8C8D3A4CFEBD5144B32C7DE5 /* Pods-serenityDigital-serenityDigitalTests.release.xcconfig */,
 			);
-			name = Resources;
+			path = Pods;
 			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -188,9 +169,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "serenityDigitalTests" */;
 			buildPhases = (
+				ACFBB714CE67CC163C12AC72 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				B857102F32A764FC97987127 /* [CP] Embed Pods Frameworks */,
+				E5DD729EF309022B5CB419F4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -206,11 +190,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "serenityDigital" */;
 			buildPhases = (
+				AF07188963C6F6AC6FDBF7AD /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				1C656D2A99B597939E0D1839 /* [CP] Embed Pods Frameworks */,
+				56B038A51CA5DCF1B5D6A1B1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -270,23 +257,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				3059F7E828104A6E009B7922 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				29FF60F4C1F3470B8D96EFC4 /* AntDesign.ttf in Resources */,
-				C195CC31875E406EAEE28470 /* Entypo.ttf in Resources */,
-				0A04341E1DE044E49C40D206 /* EvilIcons.ttf in Resources */,
-				93A930ED8C374088A3B375A9 /* Feather.ttf in Resources */,
-				24931EAC1B5F4C6BB8644873 /* FontAwesome.ttf in Resources */,
-				08822F2FE43E49E1B25E14A8 /* FontAwesome5_Brands.ttf in Resources */,
-				DCB7F9A66FD7499CB072B221 /* FontAwesome5_Regular.ttf in Resources */,
-				0D31E8AECC334268A43A243E /* FontAwesome5_Solid.ttf in Resources */,
-				E972DD8BD40748728045E2B7 /* Fontisto.ttf in Resources */,
-				78256B2F48154C41BE152F95 /* Foundation.ttf in Resources */,
-				ED790CC6E9A742338E0436AD /* Ionicons.ttf in Resources */,
-				A1C1B541082C45C7A7653864 /* MaterialCommunityIcons.ttf in Resources */,
-				3F9CB0EB37B64B32BDEE9C5B /* MaterialIcons.ttf in Resources */,
-				5CE6E29FC72445908E7FACB5 /* Octicons.ttf in Resources */,
-				3DC8DFA3005C46EDAC0AE1C0 /* SimpleLineIcons.ttf in Resources */,
-				10AF67A4B14843FDB60E5747 /* Zocial.ttf in Resources */,
+				3059F7EA28107E74009B7922 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +279,118 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		1C656D2A99B597939E0D1839 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-serenityDigital/Pods-serenityDigital-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-serenityDigital/Pods-serenityDigital-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-serenityDigital/Pods-serenityDigital-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		56B038A51CA5DCF1B5D6A1B1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-serenityDigital/Pods-serenityDigital-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-serenityDigital/Pods-serenityDigital-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-serenityDigital/Pods-serenityDigital-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ACFBB714CE67CC163C12AC72 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-serenityDigital-serenityDigitalTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AF07188963C6F6AC6FDBF7AD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-serenityDigital-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B857102F32A764FC97987127 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-serenityDigital-serenityDigitalTests/Pods-serenityDigital-serenityDigitalTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-serenityDigital-serenityDigitalTests/Pods-serenityDigital-serenityDigitalTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-serenityDigital-serenityDigitalTests/Pods-serenityDigital-serenityDigitalTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E5DD729EF309022B5CB419F4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-serenityDigital-serenityDigitalTests/Pods-serenityDigital-serenityDigitalTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-serenityDigital-serenityDigitalTests/Pods-serenityDigital-serenityDigitalTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-serenityDigital-serenityDigitalTests/Pods-serenityDigital-serenityDigitalTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -359,6 +444,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5AC8CC7403AF7DADF6C5FE48 /* Pods-serenityDigital-serenityDigitalTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -385,6 +471,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8C8D3A4CFEBD5144B32C7DE5 /* Pods-serenityDigital-serenityDigitalTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -408,6 +495,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8C3231E6D8806891794CDFAD /* Pods-serenityDigital.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -433,6 +521,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 885D4D686085AF6A2BF4112B /* Pods-serenityDigital.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -487,6 +576,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -551,6 +641,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

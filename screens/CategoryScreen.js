@@ -22,6 +22,7 @@ import PaymentMsgModal from '../components/PaymentMessage';
 const Item = ({category, img, navigation, handleSetCategory, isPro, setOpen}) => {
   const {user, access_token, categories} = useSelector(state => state.videos);
   const [count, setCount] = useState(null);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -48,7 +49,7 @@ const Item = ({category, img, navigation, handleSetCategory, isPro, setOpen}) =>
     return () => {
       setCount(null);
     };
-  }, []);
+  }, [isFocused]);
 
   return (
     <TouchableOpacity

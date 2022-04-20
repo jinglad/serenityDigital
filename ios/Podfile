@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '11.0'
+platform :ios, '12.0'
 
 target 'serenityDigital' do
   config = use_native_modules!
@@ -12,15 +12,10 @@ target 'serenityDigital' do
     :hermes_enabled => false
   )
 
-  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
-  pod 'react-native-video', :path => '../node_modules/react-native-video'
 
-  pod 'react-native-orientation-locker', :path => '../node_modules/react-native-orientation-locker'
 
   # pod 'stripe-react-native', :path => '../node_modules/@stripe/stripe-react-native'
 

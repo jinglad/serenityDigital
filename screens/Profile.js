@@ -1,4 +1,4 @@
-import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {Input} from 'react-native-elements/dist/input/Input';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
@@ -12,7 +12,7 @@ const Profile = ({navigation}) => {
 
   return (
     <View style={styles.profile}>
-      <View style={{marginTop: 30}}>
+      <View style={{marginTop: Platform.OS === 'ios' ? 50 : 30}}>
         <Text
           style={{
             color: 'white',

@@ -36,7 +36,7 @@ const Item = ({id, navigation, thumbnail, title, oid}) => {
 };
 
 const SavedVideos = ({navigation, route}) => {
-  const {videos, access_token, user} = useSelector(state => state.videos);
+  const {videos, access_token, user} = useSelector(state => state?.videos);
   const [savedVideos, setSavedVideos] = useState(null);
   const [loading, setLoading] = useState(false);
   const isFocused = useIsFocused();

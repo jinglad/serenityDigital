@@ -7,13 +7,12 @@ import {
   KeyboardAvoidingView,
   Image,
   TouchableOpacity,
-  Button,
   Keyboard,
   ScrollView,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {CheckBox, Input} from 'react-native-elements';
+import {Button, CheckBox, Input} from 'react-native-elements';
 import {BASE_URL} from '@env';
 import {setAccessToken, setUser} from '../redux/actions';
 
@@ -24,7 +23,7 @@ const UpdateProfileOne = ({navigation}) => {
   const [phone, setPhone] = useState(user?.phone);
   const [country, setCountry] = useState(user?.country);
   const [content, setContent] = useState(user?.content_choice);
-  const [age, setAge] = useState(user?.age || "");
+  const [age, setAge] = useState(user?.age || '');
   const [checked, setChecked] = useState(user?.gender);
   const [language, setLanguage] = useState(user?.language);
 
@@ -160,7 +159,16 @@ const UpdateProfileOne = ({navigation}) => {
             </View>
           </View>
           <View style={{marginTop: 30}}>
-            <Button title={loader ? 'Loading...' : 'Save'} onPress={submit} />
+            <Button
+              // containerStyle={{
+              //   width: '80%',
+              // }}
+              // buttonStyle={{
+              //   height: 40,
+              // }}
+              title={loader ? 'Loading...' : 'Save'}
+              onPress={submit}
+            />
           </View>
           <View style={{height: 100}}></View>
         </View>
@@ -176,7 +184,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 50,
     backgroundColor: '#232c38',
     alignItems: 'center',
     height: '100%',
