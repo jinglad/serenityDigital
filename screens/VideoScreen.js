@@ -57,7 +57,7 @@ const VideoScreen = ({navigation}) => {
         },
       );
       const res = await response.json();
-      console.log('videos ', res);
+      // console.log('videos ', res);
       if (response.status === 200) {
         dispatch({
           type: 'SET_VIDEOS',
