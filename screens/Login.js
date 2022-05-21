@@ -8,7 +8,7 @@ import {Button, Divider, Input} from 'react-native-elements';
 import {BASE_URL} from '@env';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAccessToken, setUser} from '../redux/actions';
-import { getUserInfo } from '../data/getUserInfo';
+import {getUserInfo} from '../data/getUserInfo';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -48,7 +48,8 @@ const Login = ({navigation}) => {
           navigation.navigate('CategoryTab');
         } else {
           Alert.alert(
-            'Warning','Could not authenticate user! please try again with correct credential',
+            'Warning',
+            'Could not authenticate user! please try again with correct credential',
           );
         }
       })
@@ -86,6 +87,11 @@ const Login = ({navigation}) => {
             style={{color: 'white', fontSize: 14}}
           />
         </View>
+        <View style={{marginLeft: 10}}>
+          <Text onPress={() => navigation.navigate('ForgotPass')} style={{color: 'lightgray', textDecorationLine: 'underline'}}>
+            Forgot Password
+          </Text>
+        </View>
         <Button
           title={loader ? 'Loading...' : 'Login'}
           buttonStyle={{
@@ -99,13 +105,6 @@ const Login = ({navigation}) => {
           }}
           onPress={signIn}
         />
-        {/* <Divider width={2} /> */}
-        {/* <Button
-          title="Sign in with Google"
-          containerStyle={{marginTop: 20}}
-          buttonStyle={{height: 60, borderRadius: 10}}
-          // icon={<AntDesign name="google" size={24} color="black" />}
-        /> */}
       </View>
     </KeyboardAvoidingView>
   );

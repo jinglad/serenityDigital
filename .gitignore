@@ -61,3 +61,5 @@ buck-out/
 .env
 
 assets/videos
+Gemfile
+Gemfile.lock
