@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Keyboard,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -23,7 +24,7 @@ const UpdateProfileOne = ({navigation}) => {
   const [phone, setPhone] = useState(user?.phone);
   const [country, setCountry] = useState(user?.country);
   const [content, setContent] = useState(user?.content_choice);
-  const [age, setAge] = useState(user?.age || '');
+  const [age, setAge] = useState(user?.age || "");
   const [checked, setChecked] = useState(user?.gender);
   const [language, setLanguage] = useState(user?.language);
 
@@ -46,17 +47,18 @@ const UpdateProfileOne = ({navigation}) => {
         country,
         content_choice: content,
         gender: checked,
-        age,
+        age: Number(age),
         language,
       }),
     })
       .then(res => res.json())
       .then(data => {
+        // console.log("updated => ", data);
         if (data.token) {
           dispatch(setUser(data));
           navigation.navigate('Profile');
         } else {
-          alert('An error occured. Please try again in a few moment.');
+          Alert.alert('An error occured. Please try again in a few moment.');
         }
       })
       .catch(error => alert(error.message));
@@ -122,7 +124,7 @@ const UpdateProfileOne = ({navigation}) => {
           <Input
             placeholder="Age"
             type="text"
-            value={`${age}`}
+            value={age}
             onChangeText={text => setAge(text)}
             containerStyle={styles.inputContainer}
             style={styles.input}
