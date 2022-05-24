@@ -25,7 +25,6 @@ import RecentVideos from './screens/RecentVideos';
 import {StripeProvider} from '@stripe/stripe-react-native';
 import PaymentScreen from './screens/PaymentScreen';
 import ForgotPass from "./screens/Forgotpass";
-import NewPass from "./screens/NewPass";
 
 const CategoryTabs = () => {
   const Tab = createBottomTabNavigator();
@@ -112,7 +111,6 @@ const App = () => {
                     component={PaymentScreen}
                   />
                   <Stack.Screen name="ForgotPass" component={ForgotPass} />
-                  <Stack.Screen name="NewPass" component={NewPass} />
                 </Stack.Navigator>
               </NavigationContainer>
             </VideosContext.Provider>

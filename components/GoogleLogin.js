@@ -25,7 +25,7 @@ const GoogleLogin = ({navigation}) => {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
       const userInfo = await GoogleSignin.signIn();
       const {idToken, accessToken} = await GoogleSignin.getTokens();
-      // console.log(accessToken);
+      console.log(accessToken);
       if (accessToken) {
         if (Platform.OS === 'ios') {
           // console.log(AppState.currentState);
@@ -40,11 +40,11 @@ const GoogleLogin = ({navigation}) => {
             })
               .then(res => res.json())
               .then(data => {
-                // console.log(data);
+                console.log(data);
                 if (data?.token) {
                   dispatch(setUser(data.user_info));
                   dispatch(setAccessToken(data.token));
-                  // navigation.navigate('CategoryTab');
+                  navigation.navigate('CategoryTab');
                 } else {
                   alert('An error is occured. Please try again');
                 }

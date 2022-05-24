@@ -50,10 +50,12 @@ const Registration = ({navigation}) => {
     })
       .then(res => res.json())
       .then(data => {
+        // console.log(data);
         setLoader(false);
         if (data.email) {
           setOpen(true);
         } else {
+          // Alert.alert(JSON.stringify(data));
           Alert.alert('Failed','Registration not done successfully! please try again');
         }
       })
