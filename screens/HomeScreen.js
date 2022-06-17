@@ -48,7 +48,7 @@ const HomeScreen = ({navigation}) => {
       <KeyboardAvoidingView style={styles.container}>
         <Image
           style={styles.logo}
-          source={require('../assets/images/logo.png')}
+          source={require('../assets/images/logo.jpeg')}
         />
         <Text style={styles.heading}>Welcome To Serenity Digital</Text>
         {!access_token ? (
@@ -130,10 +130,11 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   logo: {
-    width: 300,
-    height: 300,
+    width: "95%",
+    height: 250,
     borderRadius: 10,
     marginBottom: 50,
+    // objectFit: "contain"
   },
   heading: {
     fontSize: 22,
