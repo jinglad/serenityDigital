@@ -1,4 +1,4 @@
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import {Alert, StyleSheet, Text, View, StatusBar} from 'react-native';
 import React, {useState} from 'react';
 import {Button, Input} from 'react-native-elements';
 import {BASE_URL} from '@env';

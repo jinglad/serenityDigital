@@ -124,7 +124,7 @@ const UpdateProfileOne = ({navigation}) => {
           <Input
             placeholder="Age"
             type="text"
-            value={age}
+            value={`${age}`}
             onChangeText={text => setAge(text)}
             containerStyle={styles.inputContainer}
             style={styles.input}
