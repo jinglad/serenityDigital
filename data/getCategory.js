@@ -1,5 +1,6 @@
 import {BASE_URL} from '@env';
-import { setCategory } from '../redux/actions';
+import {Alert} from 'react-native';
+import {setCategory} from '../redux/actions';
 
 export const getCategory = async (dispatch, access_token) => {
   const response = await fetch(`${BASE_URL}/api/category/v1/categories/`, {
@@ -7,15 +8,14 @@ export const getCategory = async (dispatch, access_token) => {
     headers: {
       'content-type': 'application/json',
       Authorization: 'Token ' + access_token,
-    }
-  })
+    },
+  });
   const res = await response.json();
   // console.log(res);
-  if(response.status === 200) {
+  if (response.status === 200) {
     dispatch(setCategory(res));
     // console.log(res);
-  } 
-  if(!response.ok) {
-    alert("An error occured during fething category. Try again");
+  } else if (!response.ok) {
+    Alert.alert('An error occured during fething category. Try again');
   }
-}
+};
