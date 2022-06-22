@@ -30,26 +30,26 @@ const GoogleLogin = ({navigation}) => {
         if (Platform.OS === 'ios') {
           // console.log(AppState.currentState);
           // if (AppState.currentState === 'active') {
-            // console.log('working')
-            fetch(`${BASE_URL}/api/accounts/v1/google/login/`, {
-              method: 'POST',
-              headers: {
-                'content-type': 'application/json',
-              },
-              body: JSON.stringify({access_token: accessToken}),
+          // console.log('working')
+          fetch(`${BASE_URL}/api/accounts/v1/google/login/`, {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify({access_token: accessToken}),
+          })
+            .then(res => res.json())
+            .then(data => {
+              // console.log(data);
+              if (data?.token) {
+                dispatch(setUser(data.user_info));
+                dispatch(setAccessToken(data.token));
+                navigation.navigate('CategoryTab');
+              } else {
+                alert('An error is occured. Please try again');
+              }
             })
-              .then(res => res.json())
-              .then(data => {
-                console.log(data);
-                if (data?.token) {
-                  dispatch(setUser(data.user_info));
-                  dispatch(setAccessToken(data.token));
-                  navigation.navigate('CategoryTab');
-                } else {
-                  alert('An error is occured. Please try again');
-                }
-              })
-              .catch(err => console.log(err.message));
+            .catch(err => console.log(err.message));
           // }
         } else {
           fetch(`${BASE_URL}/api/accounts/v1/google/login/`, {
