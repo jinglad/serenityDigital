@@ -24,14 +24,8 @@ const Registration = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [user, setUser] = useState({});
-  const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
-
   const [loader, setLoader] = useState(false);
-
-  // const dispatch = useDispatch();
-  const {user} = useSelector(state => state.videos);
 
   const signUp = () => {
     setLoader(true);
@@ -50,16 +44,16 @@ const Registration = ({navigation}) => {
     })
       .then(res => res.json())
       .then(data => {
-        // console.log(data);
+        // console.log("registration => ", data);
         setLoader(false);
         if (data.email) {
           setOpen(true);
         } else {
           // Alert.alert(JSON.stringify(data));
-          Alert.alert('Failed','Registration not done successfully! please try again');
+          Alert.alert("Registration failed",'Registration not done successfully! May be user exists with the email or username. Please try again with another email or username.');
         }
       })
-      .catch(error => console.log(error.message));
+      .catch(error => Alert.alert("An error occured. Please try again."));
   };
 
   return (

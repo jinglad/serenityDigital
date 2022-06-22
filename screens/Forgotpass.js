@@ -8,6 +8,7 @@ const Forgotpass = ({navigation}) => {
   const [loader, setLoader] = useState(false);
 
   const handleSubmitEmail = async () => {
+    setLoader(true);
     const response = await fetch(`${BASE_URL}/dj-rest-auth/password/reset/`, {
       method: 'POST',
       headers: {
@@ -15,12 +16,15 @@ const Forgotpass = ({navigation}) => {
       },
       body: JSON.stringify({email})
     })
-    const res = await response.json();
+    setLoader(false);
+    // console.log("response ", response.status);
+    // Alert.alert("Error", "Server Error");
+    // const res = await response.json();
     if(response.ok) {
       // console.log(res);
-      Alert.alert("Password reset e-mail has been sent. If you cannot find, please check your spam folder as well");
-    } else {
-      Alert.alert("Some error occure. Try again later.")
+      Alert.alert("Forgot password","Password reset e-mail has been sent. If you cannot find, please check your spam folder as well");
+    } else if(!response.ok) {
+      Alert.alert("Error","Server error.")
     }
   }
 
