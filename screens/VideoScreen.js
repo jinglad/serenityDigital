@@ -57,7 +57,7 @@ const VideoScreen = ({navigation}) => {
         },
       );
       const res = await response.json();
-      // console.log('videos ', res);
+      console.log('videos ', res);
       if (response.status === 200) {
         dispatch({
           type: 'SET_VIDEOS',
@@ -81,7 +81,7 @@ const VideoScreen = ({navigation}) => {
   }, [categoryTitle]);
 
   useEffect(() => {
-    setCurrentCategory(categories.find(cat => cat.name === categoryTitle));
+    setCurrentCategory(categories?.results?.find(cat => cat.name === categoryTitle));
 
     return () => {
       setCurrentCategory(null);
@@ -133,7 +133,7 @@ const VideoScreen = ({navigation}) => {
           </Text>
         ) : (
           <>
-            {videos?.length > 0 ? (
+            {videos?.results?.length > 0 ? (
               <FlatList
                 data={videos}
                 renderItem={renderItem}

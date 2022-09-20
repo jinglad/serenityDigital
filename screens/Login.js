@@ -51,6 +51,7 @@ const Login = ({navigation}) => {
             'Warning',
             'Could not authenticate user! please try again with correct credential',
           );
+          setLoader(false);
         }
       })
       .catch(error => alert(error.message));

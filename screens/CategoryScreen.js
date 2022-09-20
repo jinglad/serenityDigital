@@ -10,6 +10,7 @@ import {
   View,
   Webview,
   Linking,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -37,11 +38,12 @@ const Item = ({category, img, navigation, handleSetCategory, isPro, setOpen}) =>
         },
       );
       const res = await response.json();
+      // console.log({categories: res})
       if (response.status === 200) {
         setCount(res);
       }
       if (!response.ok) {
-        alert('An error occured during fething category. Try again');
+        Alert.alert('Error','An error occured during fething category. Try again');
       }
     };
     fetchApi();
@@ -78,6 +80,8 @@ const CategoryScreen = ({navigation, route}) => {
   const isFocused = useIsFocused();
   const [isPro, setIsPro] = useState(null);
   const [open, setOpen] = useState(false);
+
+  console.log(categories);
 
   const onClose = () => {
     setOpen(false);
@@ -135,9 +139,9 @@ const CategoryScreen = ({navigation, route}) => {
           Find categories of your interest
         </Text>
       </View>
-      {categories?.length > 0 && (
+      {categories?.results?.length > 0 && (
         <FlatList
-          data={categories}
+          data={categories.results}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           ListFooterComponent={<View style={{height: 120}} />}

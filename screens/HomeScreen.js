@@ -79,8 +79,8 @@ const HomeScreen = ({navigation}) => {
               />
             </View>
             {/* <Divider width={2} /> */}
-            <Text style={{color: 'white', fontSize: 16}}>Or</Text>
-            <GoogleLogin navigation={navigation} />
+            {/* <Text style={{color: 'white', fontSize: 16}}>Or</Text>
+            <GoogleLogin navigation={navigation} /> */}
           </>
         ) : (
           <View style={{marginTop: 60}}>

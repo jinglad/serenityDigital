@@ -53,7 +53,10 @@ const Registration = ({navigation}) => {
           Alert.alert("Registration failed",'Registration not done successfully! May be user exists with the email or username. Please try again with another email or username.');
         }
       })
-      .catch(error => Alert.alert("An error occured. Please try again."));
+      .catch(error => {
+        Alert.alert("An error occured. Please try again.");
+        setLoader(false);
+      });
   };
 
   return (
