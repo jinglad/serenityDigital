@@ -12,8 +12,10 @@ import {
 import React, {useEffect, useState} from 'react';
 import {BASE_URL} from '@env';
 import {useDispatch, useSelector} from 'react-redux';
-import { useIsFocused } from '@react-navigation/native';
-import { setVideos } from '../redux/actions';
+import {useIsFocused} from '@react-navigation/native';
+import {setVideos} from '../redux/actions';
+import {Alert} from 'react-native';
+import {Button} from 'react-native-elements';
 
 const Item = ({id, navigation, thumbnail, title, oid}) => {
   // console.log(title);
@@ -41,6 +43,7 @@ const SavedVideos = ({navigation, route}) => {
   const [loading, setLoading] = useState(false);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
+  const [next, setNext] = useState(null);
 
   const getSavedVideos = async () => {
     const response = await fetch(`${BASE_URL}/api/category/v1/video/?saved`, {
@@ -50,16 +53,43 @@ const SavedVideos = ({navigation, route}) => {
         Authorization: 'Token ' + access_token,
       },
     });
-    const res = await response.json();
+
     if (response.status === 200) {
-      // console.log(res);
-      dispatch(setVideos(res));
-      setSavedVideos(res);
+      const res = await response.json();
+      dispatch(setVideos(res.results));
+      setSavedVideos(res.results);
+      setNext(res?.next);
       setLoading(false);
     } else {
-      alert(
+      Alert.alert(
+        'Error',
         'An error occured fetching savedvideos. Please try again in a few minutes.',
       );
+    }
+  };
+
+  const fetchMore = async () => {
+    setLoading(true);
+    if (next) {
+      const response = await fetch(`${next}`, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Token ${access_token}`,
+        },
+      });
+
+      if (response.ok) {
+        setLoading(false);
+        const res = await response.json();
+        const newData = [...savedVideos].concat(res.results);
+        dispatch(setVideos(newData));
+        setSavedVideos(newData);
+        setNext(res?.next);
+      } else {
+        setLoading(false);
+        Alert.alert('Error', 'Something went wrong with your request');
+      }
     }
   };
 
@@ -97,7 +127,31 @@ const SavedVideos = ({navigation, route}) => {
               data={savedVideos}
               renderItem={renderItem}
               keyExtractor={item => item.id}
-              ListFooterComponent={<View style={{height: 120}} />}
+              ListFooterComponent={
+                <View style={{height: 120}}>
+                  <View style={{height: 100}}>
+                    {next && (
+                      <View
+                        style={{
+                          flex: 1,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Button
+                          title="Load More"
+                          containerStyle={{
+                            width: '80%',
+                          }}
+                          buttonStyle={{
+                            height: 40,
+                          }}
+                          onPress={fetchMore}
+                        />
+                      </View>
+                    )}
+                  </View>
+                </View>
+              }
             />
           ) : (
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -109,7 +163,7 @@ const SavedVideos = ({navigation, route}) => {
                   margin: 'auto',
                   marginTop: 70,
                 }}>
-                No other videos available on this category now
+                You have no saved videos.
               </Text>
             </View>
           )}

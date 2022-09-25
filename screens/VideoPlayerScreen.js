@@ -18,6 +18,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {BASE_URL} from '@env';
 import {getUserInfo} from '../data/getUserInfo';
 import {setUser} from '../redux/actions';
+import { Alert } from 'react-native';
 
 const height = Dimensions.get('screen').height;
 const width = Dimensions.get('screen').width;
@@ -105,11 +106,12 @@ const VideoPlayerScreen = ({route, navigation}) => {
         Authorization: 'Token ' + access_token,
       },
     });
-    const res = await response.json();
+    
     if (response.status === 200) {
-      // console.log(res);
+      const res = await response.json();
+      // console.log("save videos ", res.results);
       if (res?.length > 0) setIsSavedNull(false);
-      const currentUserSavedVideos = res?.find(
+      const currentUserSavedVideos = res.results?.find(
         video => video?.user === user?.id,
       );
       // console.log(currentUserSavedVideos);
@@ -117,13 +119,16 @@ const VideoPlayerScreen = ({route, navigation}) => {
       const newCurentSaved = currentUserSavedVideos?.video?.find(
         vid => vid === currentVideo?.id,
       );
+      // console.log({newCurentSaved, currentUserSavedVideos});
       setCurrentSaved(newCurentSaved);
     } else {
-      alert(
-        'An error occured fetching savedvideos. Please try again in a few minutes.',
+      Alert.alert(
+        'Error','An error occured fetching savedvideos. Please try again in a few minutes.',
       );
     }
   };
+
+  // console.log(access_token);
 
   const getRecentVideos = async () => {
     // setRecentLoad(true);
@@ -134,22 +139,24 @@ const VideoPlayerScreen = ({route, navigation}) => {
         Authorization: 'Token ' + access_token,
       },
     });
-    const res = await response.json();
-    if (response.status === 200) {
-      // console.log(res);
+    
+    if (response.ok) {
+      const res = await response.json();
+      // console.log("user recent shown videos",user?.recentshownvideos);
       if (user?.recentshownvideos !== null) {
-        // console.log(currentVideo);
-        // setIsRecentNull(false);
-        const currentUserRecentVideos = res?.find(
+        // console.log("recent videos: ", res.results);
+        const currentUserRecentVideos = res?.results?.find(
           video => video?.user === user?.id,
         );
+        // console.log({currentUserRecentVideos})
         if (currentUserRecentVideos && currentVideo) {
           const videoExist = currentUserRecentVideos?.video?.find(
             vid => vid === currentVideo?.id,
           );
-          // console.log(videoExist);
+          // console.log("videoExist", videoExist);
           if (!videoExist) {
             currentUserRecentVideos?.video?.push(currentVideo?.id);
+            // console.log("update recent video")
             updateRecentVideos(
               currentUserRecentVideos?.id,
               recentVideos?.video,
@@ -157,22 +164,20 @@ const VideoPlayerScreen = ({route, navigation}) => {
           }
         }
       } else if (user?.recentshownvideos === null) {
+        // console.log("create recent video")
         createRecent();
       }
-      // handleRecentVideos(isNull, currentUserRecentVideos);
-      const currentUserRecentVideos = res?.find(
+      const currentUserRecentVideos = res?.results?.find(
         video => video?.user === user?.id,
       );
-      // console.log(currentUserSavedVideos);
       setRecentVideos(currentUserRecentVideos);
       const newCurentRecent = currentUserRecentVideos?.video?.find(
         vid => vid === currentVideo?.id,
       );
       setCurrentRecent(newCurentRecent);
-      // setRecentLoad(false);
     } else {
-      alert(
-        'An error occured fetching savedvideos. Please try again in a few minutes.',
+      Alert.alert(
+        'Error','An error occured fetching data. Please try again in a few minutes.',
       );
     }
   };
@@ -180,20 +185,26 @@ const VideoPlayerScreen = ({route, navigation}) => {
   // handle Recent Videos
 
   const createRecent = async () => {
-    const response = await fetch(`${BASE_URL}/api/category/v1/recent/videos/`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        Authorization: 'Token ' + access_token,
-      },
-      body: JSON.stringify({
-        user: user?.id,
-        video: [currentVideo?.id],
-      }),
-    });
-    const res = await response.json();
-    if (response.ok) {
-      setRecent(prev => prev + 1);
+    try {
+      const response = await fetch(`${BASE_URL}/api/category/v1/recent/videos/`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Token ' + access_token,
+        },
+        body: JSON.stringify({
+          user: user?.id,
+          video: [currentVideo?.id],
+        }),
+      });
+      
+      if (response.ok) {
+        const res = await response.json();
+        setRecent(prev => prev + 1);
+        // console.log("create recent vidoes", res);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -201,26 +212,33 @@ const VideoPlayerScreen = ({route, navigation}) => {
 
   const updateRecentVideos = async (id, video) => {
     // console.log('updated', video);
-    const response = await fetch(
-      `${BASE_URL}/api/category/v1/recent/videos/${id}/`,
-      {
-        method: 'PUT',
-        headers: {
-          'content-type': 'application/json',
-          Authorization: 'Token ' + access_token,
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/category/v1/recent/videos/${id}/`,
+        {
+          method: 'PUT',
+          headers: {
+            'content-type': 'application/json',
+            Authorization: 'Token ' + access_token,
+          },
+          body: JSON.stringify({
+            user: user?.id,
+            video,
+          }),
         },
-        body: JSON.stringify({
-          user: user?.id,
-          video,
-        }),
-      },
-    );
-    const res = await response.json();
-    // console.log(res);
-    if (response.ok) {
-      // console.log('updated ', res);
-      setRecent(prev => prev + 1);
+      );
+      
+      // console.log(res);
+      if (response.ok) {
+        const res = await response.json();
+        setRecent(prev => prev + 1);
+      } else {
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
     }
+    
   };
 
   useEffect(() => {
@@ -235,13 +253,14 @@ const VideoPlayerScreen = ({route, navigation}) => {
           },
         },
       );
-      const res = await response.json();
+   
       if (response.status === 200) {
+        const res = await response.json();
         // console.log("user ", res);
         dispatch(setUser(res));
       } else {
-        alert(
-          'An error occured during fetching data. Please try again in a few minutes.',
+        Alert.alert(
+          'Error','An error occured during fetching data. Please try again in a few minutes.',
         );
       }
     };
@@ -250,8 +269,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
   }, [saved, recent]);
 
   useEffect(() => {
-    setCurrentVideo(videos?.find(vid => vid.id === route.params.id));
     const current = videos?.find(vid => vid.id === route.params.id);
+    setCurrentVideo(current);
     setUserLiked(
       current?.videolikes?.likeusers?.find(userId => userId === user?.id),
     );
@@ -270,11 +289,13 @@ const VideoPlayerScreen = ({route, navigation}) => {
   }, [route.params.id, saved, render]);
 
   useEffect(() => {
-    getRecentVideos();
-  }, [route.params.id, recent, currentVideo]);
+    if(route.params.id && currentVideo) {
+      getRecentVideos();
+    }
+  }, [route.params.id, currentVideo]);
 
   useEffect(() => {
-    const rest = videos.filter(video => video.id !== route.params.id);
+    const rest = videos?.filter(video => video.id !== route.params.id);
     setReferVideos(rest);
 
     return () => {
@@ -295,8 +316,9 @@ const VideoPlayerScreen = ({route, navigation}) => {
         likeusers: [user?.id],
       }),
     });
-    const res = await response.json();
+    
     if (response.ok) {
+      const res = await response.json();
       setLiked(prev => prev + 1);
       // console.log('post like ', res);
       let updatedVideo = {...currentVideo};
@@ -306,8 +328,8 @@ const VideoPlayerScreen = ({route, navigation}) => {
       setUserLiked(user?.id);
     } else {
       // console.log(res);
-      alert(
-        'Sorry, Could not perform the action. Please try again in a few minutes.',
+      Alert.alert(
+        'Error','Sorry, Could not perform the action. Please try again in a few minutes.',
       );
     }
   };
@@ -331,19 +353,16 @@ const VideoPlayerScreen = ({route, navigation}) => {
     );
 
     const res = await response.json();
-    // console.log('updated like ', res);
-    // console.log('user', user)
     if (response.ok) {
       setLiked(prev => prev + 1);
       let updatedVideo = {...currentVideo};
-      // console.log(updatedVideo.videolikes);
       updatedVideo.videolikes = res;
       setCurrentVideo(updatedVideo);
     }
 
     if (!response.ok) {
-      alert(
-        'Sorry, Could not perform the action. Please try again in a few minutes.',
+      Alert.alert(
+        'Error','Sorry, Could not perform the action. Please try again in a few minutes.',
       );
     }
   };
@@ -390,14 +409,15 @@ const VideoPlayerScreen = ({route, navigation}) => {
         video: [currentVideo?.id],
       }),
     });
-    const res = await response.json();
+    
     // console.log(res);
     if (response.ok) {
+      const res = await response.json();
       // console.log("created ", res);
       setSaved(prev => prev + 1);
     } else {
-      alert(
-        'Sorry, Could not perform the action. Please try again in a few minutes.',
+      Alert.alert(
+        'Error','Sorry, Could not perform the action. Please try again in a few minutes.',
       );
     }
   };
@@ -417,14 +437,14 @@ const VideoPlayerScreen = ({route, navigation}) => {
         }),
       },
     );
-    const res = await response.json();
     if (response.ok) {
+      const res = await response.json();
       // console.log("updated ", res);
       setSaved(prev => prev + 1);
     } else {
       // console.log(res);
-      alert(
-        'Sorry, Could not perform the action. Please try again in a few minutes.',
+      Alert.alert(
+        'Error','Sorry, Could not perform the action. Please try again in a few minutes.',
       );
     }
   };

@@ -42,6 +42,7 @@ const RecentVideos = ({navigation, route}) => {
   const [loading, setLoading] = useState(false);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
+  const [next, setNext] = useState(null);
 
   const getRecentVideos = async () => {
     const response = await fetch(`${BASE_URL}/api/category/v1/video/?recent`, {
@@ -51,18 +52,39 @@ const RecentVideos = ({navigation, route}) => {
         Authorization: 'Token ' + access_token,
       },
     });
-    const res = await response.json();
+    
     if (response.status === 200) {
-      // console.log(res);
+      const res = await response.json();
       dispatch(setVideos(res));
       setRecentVideos(res);
       setLoading(false);
+      setNext(res?.next);
     } else {
       Alert.alert(
-        'An error occured fetching recent videos. Please try again in a few minutes.',
+        'Error','An error occured fetching recent videos. Please try again in a few minutes.',
       );
     }
   };
+
+  // const fetchMore = async () => {
+  //   if(next) {
+  //     fetch(next, {
+  //       method: 'GET',
+  //       headers: {
+  //         'content-type': 'application/json',
+  //         Authorization: 'Token ' + access_token,
+  //       },
+  //     })
+  //     .then(response => {
+  //       if(response.ok) {
+  //         return response.json();
+  //       }
+  //     })
+  //     .then((res) => {
+  //       const data = recentVideos.results.concat
+  //     })
+  //   }
+  // }
 
   useEffect(() => {
     setLoading(true);
@@ -93,9 +115,9 @@ const RecentVideos = ({navigation, route}) => {
         </Text>
       ) : (
         <>
-          {recentVideos?.length > 0 ? (
+          {recentVideos?.results?.length > 0 ? (
             <FlatList
-              data={recentVideos}
+              data={recentVideos.results}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               ListFooterComponent={<View style={{height: 120}} />}
@@ -110,7 +132,7 @@ const RecentVideos = ({navigation, route}) => {
                   margin: 'auto',
                   marginTop: 70,
                 }}>
-                No videos available
+                No recent videos available
               </Text>
             </View>
           )}

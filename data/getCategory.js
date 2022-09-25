@@ -10,11 +10,9 @@ export const getCategory = async (dispatch, access_token) => {
       Authorization: 'Token ' + access_token,
     },
   });
-  const res = await response.json();
-  console.log({category:res.results});
   if (response.status === 200) {
+    const res = await response.json();
     dispatch(setCategory(res));
-    // console.log(res);
   } else if (!response.ok) {
     Alert.alert('An error occured during fething category. Try again');
   }

@@ -81,7 +81,7 @@ const CategoryScreen = ({navigation, route}) => {
   const [isPro, setIsPro] = useState(null);
   const [open, setOpen] = useState(false);
 
-  console.log(categories);
+  // console.log(categories);
 
   const onClose = () => {
     setOpen(false);
@@ -139,9 +139,9 @@ const CategoryScreen = ({navigation, route}) => {
           Find categories of your interest
         </Text>
       </View>
-      {categories?.results?.length > 0 && (
+      {categories?.length > 0 && (
         <FlatList
-          data={categories.results}
+          data={categories}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           ListFooterComponent={<View style={{height: 120}} />}

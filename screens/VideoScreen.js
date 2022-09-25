@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   Image,
   Platform,
@@ -14,13 +15,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setVideos} from '../redux/actions';
 import {BASE_URL} from '@env';
 import {VideosContext} from '../App';
+import {Button} from 'react-native-elements';
 
 const Item = ({title, thumbnail, url, navigation, oid, id}) => (
   <TouchableOpacity
     style={{paddingLeft: 10, paddingRight: 10}}
     onPress={() => {
       navigation.navigate('VideoPlayer', {
-        id
+        id,
       });
     }}>
     <View style={styles.item}>
@@ -33,15 +35,47 @@ const Item = ({title, thumbnail, url, navigation, oid, id}) => (
 );
 
 const VideoScreen = ({navigation}) => {
-  const {categoryTitle, categories, access_token} = useSelector(state => state.videos);
+  const {categoryTitle, categories, access_token} = useSelector(
+    state => state.videos,
+  );
   const dispatch = useDispatch();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [videoList, setVideoList] = useContext(VideosContext);
   const [currentCategory, setCurrentCategory] = useState(null);
+  const [next, setNext] = useState(null);
 
   // console.log(categoryTitle);
   // console.log(access_token);
+
+  const fetchMore = async () => {
+    setLoading(true);
+    if (next) {
+      const response = await fetch(`${next}`, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Token ${access_token}`,
+        },
+      });
+
+      if (response.ok) {
+        setLoading(false);
+        const res = await response.json();
+        const newData = [...videos].concat(res.results);
+        // console.log(newData);
+        dispatch({
+          type: 'SET_VIDEOS',
+          payload: newData,
+        });
+        setVideos(newData);
+        setNext(res?.next);
+      } else {
+        setLoading(false);
+        Alert.alert('Error', 'Something went wrong with your request');
+      }
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -56,18 +90,20 @@ const VideoScreen = ({navigation}) => {
           },
         },
       );
-      const res = await response.json();
-      console.log('videos ', res);
+
       if (response.status === 200) {
+        const res = await response.json();
+        setNext(res?.next);
         dispatch({
           type: 'SET_VIDEOS',
-          payload: res,
+          payload: res.results,
         });
-        setVideos(res);
+        setVideos(res.results);
         setLoading(false);
       }
       if (!response.ok) {
-        alert(
+        Alert.alert(
+          'Error',
           'An error occured while fetching data. Please try again in a few minutes.',
         );
         setLoading(false);
@@ -77,15 +113,15 @@ const VideoScreen = ({navigation}) => {
 
     return () => {
       setVideos(null);
-    }
+    };
   }, [categoryTitle]);
 
   useEffect(() => {
-    setCurrentCategory(categories?.results?.find(cat => cat.name === categoryTitle));
+    setCurrentCategory(categories?.find(cat => cat.name === categoryTitle));
 
     return () => {
       setCurrentCategory(null);
-    }
+    };
   }, [categoryTitle]);
 
   const renderItem = ({item}) => (
@@ -133,13 +169,37 @@ const VideoScreen = ({navigation}) => {
           </Text>
         ) : (
           <>
-            {videos?.results?.length > 0 ? (
-              <FlatList
-                data={videos}
-                renderItem={renderItem}
-                keyExtractor={item => item.video_oid}
-                ListFooterComponent={<View style={{height: 300}} />}
-              />
+            {videos?.length > 0 ? (
+              <>
+                <FlatList
+                  data={videos}
+                  renderItem={renderItem}
+                  keyExtractor={item => item.video_oid}
+                  ListFooterComponent={
+                    <View style={{height: 100}}>
+                      {
+                        next && <View
+                        style={{
+                          flex: 1,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Button
+                          title="Load More"
+                          containerStyle={{
+                            width: '80%',
+                          }}
+                          buttonStyle={{
+                            height: 40,
+                          }}
+                          onPress={fetchMore}
+                        />
+                      </View>
+                      }
+                    </View>
+                  }
+                />
+              </>
             ) : (
               <Text
                 style={{color: 'white', marginTop: 20, textAlign: 'center'}}>
